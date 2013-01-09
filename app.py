@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request
+from flask import Flask, request, abort
 from flask import render_template
 
 app = Flask(__name__)
@@ -14,7 +14,11 @@ def answer():
     if q == 'Quelle est ton adresse email':
         return user['mail']
 
-    return render_template('index.html', user=user)
+    elif q == 'Es tu abonne a la mailing list(OUI/NON)':
+        return 'NON'
+
+    abort(404)
+    # return render_template('index.html', user=user)
 
 
 if __name__ == '__main__':
