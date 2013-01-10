@@ -26,6 +26,19 @@ def solution(montant):
                 composition[monnaie[str(piece)]] = nb_pieces
                 total += piece * nb_pieces
 
+            if piece > 1 and nb_pieces > 1:
+                for nb_piece in range(nb_pieces - 1, 0, -1):
+                    debut_composition = { monnaie[str(piece)]: nb_piece }
+                    fins_compositions = solution(change + total - (piece * nb_piece))
+
+                    for fin_composition in fins_compositions:
+                        if monnaie[str(piece)] in fin_composition.keys():
+                            continue
+
+                        autres_composition = dict(debut_composition.items() + fin_composition.items())
+                        if not autres_composition in compositions:
+                            compositions.append(autres_composition)
+
             if not change:
                 break
 
@@ -37,8 +50,11 @@ def solution(montant):
 
 
 if __name__ == "__main__":
-    print solution(1)
-    print solution(7)
-    print solution(8)
-    print solution(11)
+    # print solution(1)
+    # print solution(7)
+    # print solution(8)
+    # print solution(11)
+    # print solution(12)
+    print solution(19)
     print solution(21)
+    print solution(22)
