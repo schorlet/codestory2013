@@ -17,6 +17,9 @@ def answer():
     elif q == 'Es tu abonne a la mailing list(OUI/NON)':
         return 'OUI'
 
+    elif q == 'Es tu heureux de participer(OUI/NON)':
+        return 'OUI'
+
     abort(404)
     # return render_template('index.html', user=user)
 
