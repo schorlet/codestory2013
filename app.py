@@ -1,17 +1,22 @@
-import os
+import os, sys
 from flask import Flask, request, abort
 from flask import render_template
 
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/', methods=['POST', 'GET'])
 def answer():
     user = { 'nickname': 'stephanec',
         'mail': 'schorlet@gmail.com' }
     q = request.args.get('q', '')
 
-    if q == 'Quelle est ton adresse email':
+    if request.method == 'POST':
+        print 'form: %s'%str(request.form)
+        print 'data: %s'%str(request.data)
+        return ''
+
+    elif q == 'Quelle est ton adresse email':
         return user['mail']
 
     elif q == 'Es tu abonne a la mailing list(OUI/NON)':
@@ -20,8 +25,10 @@ def answer():
     elif q == 'Es tu heureux de participer(OUI/NON)':
         return 'OUI'
 
+    elif q == 'Es tu pret a recevoir une enonce au format markdown par http post(OUI/NON)':
+        return 'OUI'
+
     abort(404)
-    # return render_template('index.html', user=user)
 
 
 if __name__ == '__main__':
