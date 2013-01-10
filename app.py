@@ -31,6 +31,9 @@ def answer():
     elif q == 'Est ce que tu reponds toujours oui(OUI/NON)':
         return 'NON'
 
+    elif q == 'As tu bien recu le premier enonce(OUI/NON)':
+        return 'OUI'
+
     abort(404)
 
 
