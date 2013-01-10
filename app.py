@@ -28,6 +28,9 @@ def answer():
     elif q == 'Es tu pret a recevoir une enonce au format markdown par http post(OUI/NON)':
         return 'OUI'
 
+    elif q == 'Est ce que tu reponds toujours oui(OUI/NON)':
+        return 'NON'
+
     abort(404)
 
 
