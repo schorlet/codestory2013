@@ -40,7 +40,7 @@ def enonce_1():
     return ''
 
 
-@app.route('/scalaskel/change/<int:montant>', methods=['GET'])
+@app.route('/scalaskel/change/<int:montant>')
 def reponse_1(montant):
     import solution1
     from json import dumps

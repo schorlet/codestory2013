@@ -2,7 +2,7 @@
 
 def solution(montant):
     monnaie = { '1': 'foo', '7': 'bar', '11': 'qix', '21': 'baz'}
-    permutations = ((21,11,7,1), (21,11,1), (21,7,1), (11,7,1), (21,1), (11,1), (7,1), (1,0))
+    permutations = ((21,11,7,1), (21,11,1), (21,7,1), (21,1), (11,7,1), (11,1), (7,1), (1,0))
     compositions = []
 
     if not montant:
@@ -32,14 +32,15 @@ def solution(montant):
 
         if total == montant:
             compositions.append(composition)
+            if piece > 1:
+                break
 
     return compositions
 
 
 if __name__ == "__main__":
-    print solution(97)
-    print solution(58)
-    print solution(23)
-    print solution(7)
     print solution(1)
-    print solution(0)
+    print solution(7)
+    print solution(8)
+    print solution(11)
+    print solution(21)
