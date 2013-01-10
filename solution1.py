@@ -5,7 +5,7 @@ def solution(montant):
     permutations = ((21,11,7,1), (21,11,1), (21,7,1), (21,1), (11,7,1), (11,1), (7,1), (1,0))
     compositions = []
 
-    if not montant:
+    if not montant or montant > 80:
         return compositions
 
     for permutation in permutations:
@@ -58,3 +58,4 @@ if __name__ == "__main__":
     print solution(19)
     print solution(21)
     print solution(22)
+    print solution(92)
