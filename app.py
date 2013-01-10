@@ -34,6 +34,13 @@ def answer():
     abort(404)
 
 
+@app.route('/enonce/1', methods=['POST'])
+def enonce_1():
+    print 'form: %s'%str(request.form)
+    print 'data: %s'%str(request.data)
+    return ''
+
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
