@@ -1,22 +1,17 @@
-import os, sys
-from flask import Flask, request, abort
+import os
+from flask import Flask, request, abort, make_response
 from flask import render_template
 
 app = Flask(__name__)
 
 
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/', methods=['GET'])
 def answer():
     user = { 'nickname': 'stephanec',
         'mail': 'schorlet@gmail.com' }
     q = request.args.get('q', '')
 
-    if request.method == 'POST':
-        print 'form: %s'%str(request.form)
-        print 'data: %s'%str(request.data)
-        return ''
-
-    elif q == 'Quelle est ton adresse email':
+    if q == 'Quelle est ton adresse email':
         return user['mail']
 
     elif q == 'Es tu abonne a la mailing list(OUI/NON)':
@@ -39,9 +34,18 @@ def answer():
 
 @app.route('/enonce/1', methods=['POST'])
 def enonce_1():
+    print 'headers: %s'%str(request.headers)
     print 'form: %s'%str(request.form)
     print 'data: %s'%str(request.data)
     return ''
+
+
+@app.route('/scalaskel/change/<int:montant>', methods=['GET'])
+def reponse_1(montant):
+    import solution1
+    from json import dumps
+    solution = solution1.solution(montant)
+    return make_response(dumps(solution))
 
 
 if __name__ == '__main__':
