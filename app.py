@@ -15,7 +15,7 @@ def answer():
         return user['mail']
 
     elif q == 'Es tu abonne a la mailing list(OUI/NON)':
-        return 'NON'
+        return 'OUI'
 
     abort(404)
     # return render_template('index.html', user=user)
