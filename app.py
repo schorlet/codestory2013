@@ -1,4 +1,5 @@
 import os
+import re
 from flask import Flask, request, abort, make_response
 from flask import render_template
 
@@ -29,14 +30,16 @@ def answer():
     elif q == 'As tu bien recu le premier enonce(OUI/NON)':
         return 'OUI'
 
-    elif q == '1 1':
-        return '2'
+    else:
+        match = re.match(r'\d+[ /*-]\d+', q)
+        if match:
+            return str(eval(q.replace(' ', '+')))
 
     abort(404)
 
 
-@app.route('/enonce/1', methods=['POST'])
-def enonce_1():
+@app.route('/enonce/<int:num>', methods=['POST'])
+def enonce(num):
     print 'headers: %s'%str(request.headers)
     print 'form: %s'%str(request.form)
     print 'data: %s'%str(request.data)
