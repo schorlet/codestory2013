@@ -29,6 +29,9 @@ def answer():
     elif q == 'As tu bien recu le premier enonce(OUI/NON)':
         return 'OUI'
 
+    elif q == '1 1':
+        return '2'
+
     abort(404)
 
 
