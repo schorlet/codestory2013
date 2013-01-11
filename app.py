@@ -30,8 +30,8 @@ def answer():
         if match:
             try:
                 q = re.sub(' ', '+', q)
-                # solution = solution2.solution('(%s)'%q)
-                solution = eval(q)
+                q = re.sub(',', '.', q)
+                solution = solution2.solution('(%s)'%q)
             except Exception as e:
                 print str(e)
                 pass
