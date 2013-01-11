@@ -40,7 +40,7 @@ def solution(montant, pieces = None):
     return compositions
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     for i in range(1, 101):
         print solution(i)
 

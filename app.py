@@ -1,7 +1,7 @@
-import os
-import re
+import os, re
 from flask import Flask, request, abort, make_response
 from flask import render_template
+import solution1, solution2
 
 app = Flask(__name__)
 
@@ -10,30 +10,32 @@ app = Flask(__name__)
 def answer():
     user = { 'nickname': 'stephanec',
         'mail': 'schorlet@gmail.com' }
+
+    questions = ('Es tu abonne a la mailing list(OUI/NON)',
+                'Es tu heureux de participer(OUI/NON)',
+                'Es tu pret a recevoir une enonce au format markdown par http post(OUI/NON)',
+                'Est ce que tu reponds toujours oui(OUI/NON)',
+                'As tu bien recu le premier enonce(OUI/NON)')
+
     q = request.args.get('q', '')
 
     if q == 'Quelle est ton adresse email':
         return user['mail']
 
-    elif q == 'Es tu abonne a la mailing list(OUI/NON)':
-        return 'OUI'
-
-    elif q == 'Es tu heureux de participer(OUI/NON)':
-        return 'OUI'
-
-    elif q == 'Es tu pret a recevoir une enonce au format markdown par http post(OUI/NON)':
-        return 'OUI'
-
-    elif q == 'Est ce que tu reponds toujours oui(OUI/NON)':
-        return 'NON'
-
-    elif q == 'As tu bien recu le premier enonce(OUI/NON)':
+    elif q in questions:
         return 'OUI'
 
     else:
-        match = re.match(r'\d+[ /*-]\d+', q)
+        match = re.search(r'\d+[ /*-][-]?\d+', q)
         if match:
-            return str(eval(q.replace(' ', '+')))
+            try:
+                q = re.sub(' ', '+', q)
+                solution = solution2.solution('(%s)'%q)
+            except Exception as e:
+                print str(e)
+                pass
+            else:
+                return str(solution)
 
     abort(404)
 
@@ -48,7 +50,6 @@ def enonce(num):
 
 @app.route('/scalaskel/change/<int:montant>')
 def reponse_1(montant):
-    import solution1
     from json import dumps
     solution = solution1.solution(montant)
     return make_response(dumps(solution))
