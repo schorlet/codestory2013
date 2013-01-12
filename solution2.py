@@ -4,10 +4,6 @@ from operator import truediv
 
 def solution(s):
     s = re.sub(r'([+/*]|(?<![-])[-]|[()])', r' \1 ', s)
-    # print 'solution2:', s
-    # s = re.sub(r'([-]?\d+(.\d+)?\s+[+/*]\s+[-]?\d+(.\d+)?)', r'( \1 )', s)
-    # print 'solution2:', s
-
     O, N = list(), list()
     for c in s.split():
         if c == '(':
@@ -37,7 +33,10 @@ def solution(s):
                     e = eval('%(a)s %(c)s %(b)s'%{'a':a, 'b':b, 'c':op},
                             {'__builtins__': None})
                 N.append(e)
-    return N[0]
+    n = N[0]
+    if type(n) == float and int(n) == n:
+        n = int(n)
+    return n
 
 if __name__ == '__main__':
     print solution('( 1 + ( ( 2 + 3 ) * ( 4 * 500 ) ) )'), 10001
