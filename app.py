@@ -25,6 +25,8 @@ def answer():
     elif q in questions:
         return 'OUI'
 
+    elif q == 'As tu passe une bonne nuit malgre les bugs de l etape precedente(PAS_TOP/BOF/QUELS_BUGS)':
+        return 'QUELS_BUGS'
     else:
         try:
             q = re.sub(' ', '+', q)
@@ -46,7 +48,7 @@ def enonce(num):
     print 'form: %s'%str(request.form)
     print 'args: %s'%str(request.args)
     print 'data: %s'%str(request.data)
-    return ''
+    return '', 201
 
 
 @app.route('/scalaskel/change/<int:montant>')
