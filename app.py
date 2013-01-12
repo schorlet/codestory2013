@@ -26,18 +26,16 @@ def answer():
         return 'OUI'
 
     else:
-        match = re.search(r'\d+[ /*-][-]?\d+', q)
-        if match:
-            try:
-                q = re.sub(' ', '+', q)
-                q = re.sub(',', '.', q)
-                solution = solution2.solution('(%s)'%q)
-                solution = re.sub(r'\.', ',', str(solution))
-            except Exception as e:
-                print str(e)
-                pass
-            else:
-                return str(solution)
+        try:
+            q = re.sub(' ', '+', q)
+            q = re.sub(',', '.', q)
+            solution = solution2.solution('(%s)'%q)
+            solution = re.sub(r'\.', ',', str(solution))
+        except Exception as e:
+            print str(e)
+            pass
+        else:
+            return str(solution)
 
     abort(404)
 

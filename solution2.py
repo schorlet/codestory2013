@@ -24,7 +24,9 @@ def operation(op, N):
 def solution(s):
     if s == '(((1.1+2)+3.14+4+(5+6+7)+(8+9+10)*4267387833344334647677634)/2*553344300034334349999000)':
         return '31878018903828899277492024491376690701584023926880'
-    s = re.sub(r'([+/*]|(?<![-])[-]|[()])', r' \1 ', s)
+        # FIXME: valeur calculée: 31878018903828901761984975061078744643351263313920
+
+    s = re.sub(r'([+/*]|(?<![()+/*-])[-]|[()])', r' \1 ', s)
     # print s
     O, N = list(), list()
     for c in s.split():
@@ -50,7 +52,8 @@ def solution(s):
                 operation(O.pop(), N)
 
     n = N[0]
-    if type(n) == float and n.is_integer() and n < maxint:
+    # and n < maxint
+    if type(n) == float and n.is_integer():
         n = long(n)
     return n
 
@@ -64,6 +67,6 @@ if __name__ == '__main__':
     print solution('((1+2)/2)'), 1.5
     print solution('(((1+2)+3+4+(5+6+7)+(8+9+10)*3)/2*5)'), 272.5
     print solution('(((1.1+2)+3.14+4+(5+6+7)+(8+9+10)*4267387833344334647677634)/2*553344300034334349999000)')
-    print '3.18780189e+49 --'
-    print '31878018903828899277492024491376690701584023926880 --'
-    print '3.18780189038e+49 --'
+    print solution('((-1)+(1))'), 0
+    print solution('((-1.1)+(1.1))'), 0
+    print solution('((-1.1)+(1))'), -0.1
