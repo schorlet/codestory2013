@@ -46,6 +46,7 @@ def answer():
 def enonce(num):
     print 'headers: %s'%str(request.headers)
     print 'form: %s'%str(request.form)
+    print 'args: %s'%str(request.args)
     print 'data: %s'%str(request.data)
     return ''
 
