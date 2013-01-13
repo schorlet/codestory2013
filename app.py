@@ -1,12 +1,12 @@
-import os, re
+import os, re, json
 from flask import Flask, request, abort, make_response
 from flask import render_template
-import solution1, solution2
+import solution1, calculatrice, solution2
 
 app = Flask(__name__)
 
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods = ['GET'])
 def answer():
     user = { 'nickname': 'stephanec',
         'mail': 'schorlet@gmail.com' }
@@ -31,7 +31,7 @@ def answer():
         try:
             q = re.sub(' ', '+', q)
             q = re.sub(',', '.', q)
-            solution = solution2.solution('(%s)'%q)
+            solution = calculatrice.solution('(%s)'%q)
             solution = re.sub(r'\.', ',', str(solution))
         except Exception as e:
             print str(e)
@@ -42,20 +42,37 @@ def answer():
     abort(404)
 
 
-@app.route('/enonce/<int:num>', methods=['POST'])
+def __read_payload(request):
+    length = request.environ.get('CONTENT_LENGTH', '')
+    length = 0 if length == '' else int(length)
+    return request.environ['wsgi.input'].read(length)
+
+
+@app.route('/enonce/<int:num>', methods = ['POST'])
 def enonce(num):
     print 'headers: %s'%str(request.headers)
-    print 'form: %s'%str(request.form)
-    print 'args: %s'%str(request.args)
-    print 'data: %s'%str(request.data)
-    return '', 201
+    print 'payload: %s'%__read_payload(request)
+    if num < 3:
+	    return '', 201
+    return '', 204
 
 
-@app.route('/scalaskel/change/<int:montant>')
+@app.route('/scalaskel/change/<int:montant>', methods = ['GET'])
 def reponse_1(montant):
-    from json import dumps
     solution = solution1.solution(montant)
-    return make_response(dumps(solution))
+    return make_response(json.dumps(solution))
+
+
+@app.route('/jajascript/optimize', methods = ['POST'])
+def reponse_2():
+    print 'headers: %s'%str(request.headers)
+
+    if request.headers['Content-Type'] == 'application/json':
+        print 'json: %s'%str(json.dumps(request.json))
+    else:
+        print 'payload: %s'%__read_payload(request)
+
+    return '', 204
 
 
 if __name__ == '__main__':
