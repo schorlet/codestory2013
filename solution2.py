@@ -75,11 +75,14 @@ def solution(commandes):
     resultat = { 'gain': vol_gain[1], 'path': list() }
 
     vol = vol_gain[0]
-    resultat['path'].append(vol)
-    while vol in precedents:
-        vol = precedents[vol]
-        # print '  ', vol, vols_map[vol]
-        resultat['path'].insert(0, vol)
+    if not vol in precedents:
+        resultat['path'] = vol
+    else:
+        resultat['path'].append(vol)
+        while vol in precedents:
+            vol = precedents[vol]
+            # print '  ', vol, vols_map[vol]
+            resultat['path'].insert(0, vol)
 
     if len(commandes) < 10:
         print 'solution2: resultat =', str(resultat)
