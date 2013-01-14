@@ -14,13 +14,16 @@ def answer():
     questions = ('Es tu abonne a la mailing list(OUI/NON)',
                 'Es tu heureux de participer(OUI/NON)',
                 'Es tu pret a recevoir une enonce au format markdown par http post(OUI/NON)',
-                'Est ce que tu reponds toujours oui(OUI/NON)',
-                'As tu bien recu le premier enonce(OUI/NON)')
+                'As tu bien recu le premier enonce(OUI/NON)',
+                'As tu bien recu le second enonce(OUI/NON)')
 
     q = request.args.get('q', '')
 
     if q == 'Quelle est ton adresse email':
         return user['mail']
+
+    elif q == 'Est ce que tu reponds toujours oui(OUI/NON)':
+        return 'NON'
 
     elif q in questions:
         return 'OUI'
@@ -53,7 +56,7 @@ def enonce(num):
     print 'headers: %s'%str(request.headers)
     print 'payload: %s'%__read_payload(request)
     if num < 3:
-	    return '', 201
+        return '', 201
     return '', 204
 
 
@@ -67,12 +70,9 @@ def reponse_1(montant):
 def reponse_2():
     print 'headers: %s'%str(request.headers)
 
-    if request.headers['Content-Type'] == 'application/json':
-        print 'json: %s'%str(json.dumps(request.json))
-    else:
-        print 'payload: %s'%__read_payload(request)
-
-    return '', 204
+    commandes = json.loads(__read_payload(request))
+    solution = solution2.solution(commandes)
+    return make_response(json.dumps(solution))
 
 
 if __name__ == '__main__':

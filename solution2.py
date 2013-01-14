@@ -2,13 +2,13 @@
 import itertools
 from operator import itemgetter
 from collections import defaultdict
-from pprint import pprint
 
-def mapper_commandes_par_vol_prix_depart(commandes):
+def mapper_commandes(commandes):
     """map des commandes indexées par VOL,
     map des PRIX indexées par VOL,
     map des VOL indexées par DEPART"""
-    vols_map, prix_map, depart_map = dict(), dict(), defaultdict(list)
+    vols_map, prix_map = dict(), dict()
+    depart_map = defaultdict(list)
     for commande in commandes:
         vols_map[commande['VOL']] = {
                 'PRIX': commande['PRIX'],
@@ -33,8 +33,11 @@ def rechercher_vols_apres(depart_map, fin):
         yield next(iter(vols))
 
 def solution(commandes):
-    print 'nb_commandes:', len(commandes)
-    vols_map, prix_map, depart_map = mapper_commandes_par_vol_prix_depart(commandes)
+    print 'solution2: nb_commandes =', len(commandes)
+    if len(commandes) == 0:
+        return { 'gain': 0, 'path': [] }
+
+    vols_map, prix_map, depart_map = mapper_commandes(commandes)
     vols = trier_vols_par_depart(depart_map)
     precedents = {}
 
@@ -71,28 +74,31 @@ def solution(commandes):
 
     vol = vol_gain[0]
     resultat['path'].append(vol)
-    # print vol, vols_map[vol]
-
     while vol in precedents:
         vol = precedents[vol]
         # print '  ', vol, vols_map[vol]
         resultat['path'].insert(0, vol)
 
-    print resultat
-    print
+    return resultat
 
 if __name__ == '__main__':
-    solution([
+    print solution([])
+
+    print solution([
         { 'VOL': 'MONAD42', 'DEPART': 0, 'DUREE': 5, 'PRIX': 10 },
         { 'VOL': 'META18', 'DEPART': 3, 'DUREE': 7, 'PRIX': 14 },
         { 'VOL': 'LEGACY01', 'DEPART': 5, 'DUREE': 9, 'PRIX': 8 },
         { 'VOL': 'YAGNI17', 'DEPART': 5, 'DUREE': 9, 'PRIX': 7 }
     ])
-    commandes = [{ 'VOL': str(i), 'DEPART': i, 'DUREE': i, 'PRIX': 1000 - i } for i in range(1, 1000)]
+
     import random
+    commandes = [{ 'VOL': str(i), 'DEPART': i, 'DUREE': i, 'PRIX': 1000 - i } for i in range(1, 1000)]
     random.shuffle(commandes)
-    solution(commandes)
+    print solution(commandes)
     # {'path': ['1', '2', '4', '8', '16', '32', '64', '128', '256', '512'], 'gain': 8977}
 
-
+    commandes = [{ 'VOL': str(i), 'DEPART': i, 'DUREE': i, 'PRIX': i } for i in range(1, 1000)]
+    random.shuffle(commandes)
+    print solution(commandes)
+    # {'path': ['1', '3', '7', '15', '31', '62', '124', '249', '499', '999'], 'gain': 1990}
 
