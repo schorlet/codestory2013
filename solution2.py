@@ -70,15 +70,18 @@ def solution(commandes):
             # print '  ', vol, vols_map[vol]
 
     vol_gain = max(prix_map.items(), key=itemgetter(1))
-    resultat = { 'gain': vol_gain[1], 'path': list() }
+    resultat = { 'gain': vol_gain[1] }
 
     vol = vol_gain[0]
-    resultat['path'].append(vol)
-
-    while vol in precedents:
-        vol = precedents[vol]
-        # print '  ', vol, vols_map[vol]
-        resultat['path'].insert(0, vol)
+    if not vol in precedents:
+        resultat['path'] = vol
+    else:
+        resultat['path'] = list()
+        resultat['path'].append(vol)
+        while vol in precedents:
+            vol = precedents[vol]
+            # print '  ', vol, vols_map[vol]
+            resultat['path'].insert(0, vol)
 
     return resultat
 
