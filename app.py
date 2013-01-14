@@ -71,8 +71,9 @@ def reponse_2():
     # print str(request.headers)
     commandes = json.loads(__read_payload(request))
     solution = solution2.solution(commandes)
-    return make_response(json.dumps(solution))
-
+    response = make_response(json.dumps(solution))
+    response.headers['Content-Type'] = 'application/json'
+    return response
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
