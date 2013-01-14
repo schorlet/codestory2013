@@ -53,8 +53,8 @@ def __read_payload(request):
 
 @app.route('/enonce/<int:num>', methods = ['POST'])
 def enonce(num):
-    print 'headers: %s'%str(request.headers)
-    print 'payload: %s'%__read_payload(request)
+    # print str(request.headers)
+    print __read_payload(request)
     if num < 3:
         return '', 201
     return '', 204
@@ -68,8 +68,7 @@ def reponse_1(montant):
 
 @app.route('/jajascript/optimize', methods = ['POST'])
 def reponse_2():
-    print 'headers: %s'%str(request.headers)
-
+    # print str(request.headers)
     commandes = json.loads(__read_payload(request))
     solution = solution2.solution(commandes)
     return make_response(json.dumps(solution))
