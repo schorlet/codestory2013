@@ -35,7 +35,9 @@ def rechercher_vols_apres(depart_map, fin):
 def solution(commandes):
     print 'solution2: nb_commandes =', len(commandes)
     if len(commandes) == 0:
-        return { 'gain': 0, 'path': [] }
+        return { 'gain': 0, 'path': list() }
+    elif len(commandes) < 10:
+        print 'solution2: commandes =', str(commandes)
 
     vols_map, prix_map, depart_map = mapper_commandes(commandes)
     vols = trier_vols_par_depart(depart_map)
@@ -70,18 +72,17 @@ def solution(commandes):
             # print '  ', vol, vols_map[vol]
 
     vol_gain = max(prix_map.items(), key=itemgetter(1))
-    resultat = { 'gain': vol_gain[1] }
+    resultat = { 'gain': vol_gain[1], 'path': list() }
 
     vol = vol_gain[0]
-    if not vol in precedents:
-        resultat['path'] = vol
-    else:
-        resultat['path'] = list()
-        resultat['path'].append(vol)
-        while vol in precedents:
-            vol = precedents[vol]
-            # print '  ', vol, vols_map[vol]
-            resultat['path'].insert(0, vol)
+    resultat['path'].append(vol)
+    while vol in precedents:
+        vol = precedents[vol]
+        # print '  ', vol, vols_map[vol]
+        resultat['path'].insert(0, vol)
+
+    if len(commandes) < 10:
+        print 'solution2: resultat =', str(resultat)
 
     return resultat
 
