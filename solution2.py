@@ -82,15 +82,6 @@ def solution(commandes):
         # print '  ', vol, vols_map[vol]
         resultat['path'].insert(0, str(vol))
 
-    resultat = """{
-    "gain" : %d,
-    "path" : %s
-}"""%(resultat['gain'], str(resultat['path']))
-    resultat = resultat.replace("'", '"')
-
-    if len(commandes) < 10:
-        print 'solution2: resultat =', str(resultat)
-
     return resultat
 
 if __name__ == '__main__':

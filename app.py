@@ -11,25 +11,21 @@ def answer():
     user = { 'nickname': 'stephanec',
         'mail': 'schorlet@gmail.com' }
 
-    questions = ('Es tu abonne a la mailing list(OUI/NON)',
-                'Es tu heureux de participer(OUI/NON)',
-                'Es tu pret a recevoir une enonce au format markdown par http post(OUI/NON)',
-                'As tu bien recu le premier enonce(OUI/NON)',
-                'As tu bien recu le second enonce(OUI/NON)')
+    questions = {'Quelle est ton adresse email': user['mail'],
+                'Es tu abonne a la mailing list(OUI/NON)': 'OUI',
+                'Es tu heureux de participer(OUI/NON)': 'OUI',
+                'Est ce que tu reponds toujours oui(OUI/NON)': 'NON',
+                'Es tu pret a recevoir une enonce au format markdown par http post(OUI/NON)': 'OUI',
+                'As tu bien recu le premier enonce(OUI/NON)': 'OUI',
+                'As tu passe une bonne nuit malgre les bugs de l etape precedente(PAS_TOP/BOF/QUELS_BUGS)': 'QUELS_BUGS',
+                'As tu bien recu le second enonce(OUI/NON)': 'OUI',
+                'As tu copie le code de ndeloof(OUI/NON/JE_SUIS_NICOLAS)': 'NON'}
 
     q = request.args.get('q', '')
 
-    if q == 'Quelle est ton adresse email':
-        return user['mail']
+    if q in questions:
+        return questions[q]
 
-    elif q == 'Est ce que tu reponds toujours oui(OUI/NON)':
-        return 'NON'
-
-    elif q in questions:
-        return 'OUI'
-
-    elif q == 'As tu passe une bonne nuit malgre les bugs de l etape precedente(PAS_TOP/BOF/QUELS_BUGS)':
-        return 'QUELS_BUGS'
     else:
         try:
             q = re.sub(' ', '+', q)
@@ -71,8 +67,7 @@ def reponse_2():
     print str(request.headers)
     commandes = json.loads(__read_payload(request))
     solution = solution2.solution(commandes)
-    # response = make_response(json.dumps(solution, sort_keys=True, separators=(', ', ': ')), 201)
-    response = make_response(solution, 201)
+    response = make_response(json.dumps(solution, sort_keys=True, separators=(',', ' : ')), 201)
     response.headers['Content-Type'] = 'application/json'
     return response
 
