@@ -32,11 +32,9 @@ def answer():
             q = re.sub(',', '.', q)
             solution = calculatrice.solution('(%s)'%q)
             solution = re.sub(r'\.', ',', str(solution))
-        except Exception as e:
-            print str(e)
-            pass
-        else:
             return str(solution)
+        except:
+            pass
 
     abort(404)
 
