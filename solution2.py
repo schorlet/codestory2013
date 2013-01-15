@@ -75,11 +75,18 @@ def solution(commandes):
     resultat = { 'gain': vol_gain[1], 'path': list() }
 
     vol = vol_gain[0]
-    resultat['path'].append(vol)
+    resultat['path'].append(str(vol))
+
     while vol in precedents:
         vol = precedents[vol]
         # print '  ', vol, vols_map[vol]
-        resultat['path'].insert(0, vol)
+        resultat['path'].insert(0, str(vol))
+
+    resultat = """{
+    "gain" : %d,
+    "path" : %s
+}"""%(resultat['gain'], str(resultat['path']))
+    resultat = resultat.replace("'", '"')
 
     if len(commandes) < 10:
         print 'solution2: resultat =', str(resultat)
