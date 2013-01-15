@@ -72,8 +72,7 @@ def reponse_2():
     commandes = json.loads(__read_payload(request))
     solution = solution2.solution(commandes)
     response = make_response(json.dumps(solution, sort_keys=True, separators=(', ', ': ')), 201)
-    # response.headers['Content-Type'] = 'application/json'
-    response.headers['Content-Type'] = 'text/plain'
+    response.headers['Content-Type'] = 'application/json'
     return response
 
 if __name__ == '__main__':
