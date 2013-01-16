@@ -1,7 +1,7 @@
 import os, re, json
 from flask import Flask, request, abort, make_response
 from flask import render_template
-import solution1, calculatrice, solution2
+import scalaskel, calculatrice, jajascript
 
 app = Flask(__name__)
 
@@ -27,7 +27,7 @@ def answer():
         try:
             q = re.sub(' ', '+', q)
             q = re.sub(',', '.', q)
-            solution = calculatrice.solution('(%s)'%q)
+            solution = calculatrice.calcul('(%s)'%q)
             solution = re.sub(r'\.', ',', str(solution))
             return str(solution)
         except:
@@ -52,17 +52,17 @@ def enonce(num):
 
 
 @app.route('/scalaskel/change/<int:montant>', methods = ['GET'])
-def reponse1(montant):
-    solution = solution1.solution(montant)
+def scalaskel(montant):
+    solution = scalaskel.change(montant)
     return make_response(json.dumps(solution))
 
 
 @app.route('/jajascript/optimize', methods = ['POST'])
-def reponse2():
+def jajascript():
     # print str(request.headers)
     try:
         commandes = json.loads(__read_payload(request))
-        solution = solution2.solution(commandes)
+        solution = jajascript.optimize(commandes)
         response = make_response(json.dumps(solution, sort_keys=True, separators=(',', ' : ')), 201)
         response.headers['Content-Type'] = 'application/json'
         return response
