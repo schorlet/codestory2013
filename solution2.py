@@ -26,11 +26,22 @@ def trier_vols_par_depart(depart_map):
     for depart, vols in sorted(depart_map.items()):
         yield next(iter(vols))
 
-def rechercher_vols_apres(depart_map, fin):
+def rechercher_vols_apres(depart_map, fin, vols_map):
     """iterateur des VOL avec DEPART >= FIN"""
-    for depart, vols in depart_map.items():
+    max_fin, max_fin_ok = 0, False
+    for depart, vols in sorted(depart_map.items()):
         if depart >= fin:
-            yield next(iter(vols))
+            if not max_fin_ok:
+                max_fin_ok = True
+                for vol in vols:
+                    vol_fin = vols_map[vol]['FIN']
+                    if vol_fin > max_fin:
+                        max_fin = vol_fin
+                    yield vol
+            elif depart < max_fin:
+                yield next(iter(vols))
+            else:
+                break
 
 def solution(commandes):
     """
@@ -76,13 +87,21 @@ def solution(commandes):
     >>> solution(commandes)
     {'path': ['1', '3', '11', '33', '99'], 'gain': 147}
 
-
     >>> commandes = [{ 'VOL': str(i), 'DEPART': i * 2, 'DUREE': i, 'PRIX': i } for i in range(1, 100)]
     >>> random.shuffle(commandes)
     >>> solution(commandes)
     {'path': ['1', '2', '3', '5', '8', '12', '19', '29', '44', '66', '99'], 'gain': 288}
+
+    >>> commandes = [
+    ...     { 'VOL': 'VOL1', 'DEPART': 0, 'DUREE': 20, 'PRIX': 1 },
+    ...     { 'VOL': 'VOL2', 'DEPART': 2, 'DUREE': 2, 'PRIX': 1 },
+    ...     { 'VOL': 'VOL3', 'DEPART': 4, 'DUREE': 2, 'PRIX': 1 },
+    ...     { 'VOL': 'VOL4', 'DEPART': 6, 'DUREE': 2, 'PRIX': 1 }
+    ... ]
+    >>> random.shuffle(commandes)
+    >>> solution(commandes)
+    {'path': ['VOL2', 'VOL3', 'VOL4'], 'gain': 3}
     """
-    # print 'solution2: nb_commandes =', len(commandes)
     if len(commandes) == 0:
         return { 'gain': 0, 'path': list() }
 
@@ -100,10 +119,10 @@ def solution(commandes):
             del depart_map[depart]
 
         if fin > max_depart:
-            break
+            continue
 
         # recherche des commandes suivantes
-        vols_apres = rechercher_vols_apres(depart_map, fin)
+        vols_apres = rechercher_vols_apres(depart_map, fin, vols_map)
         for vol_apres in vols_apres:
             if vol_apres in precedents:
                 somme_prix = prix_map[vol] + vols_map[vol_apres]['PRIX']
@@ -135,8 +154,6 @@ def solution(commandes):
 
 if __name__ == '__main__':
     import random
-    from operator import truediv
     commandes = [{ 'VOL': str(i), 'DEPART': i*2, 'DUREE': i, 'PRIX': i } for i in range(1, 100)]
     random.shuffle(commandes)
     print solution(commandes)
-
