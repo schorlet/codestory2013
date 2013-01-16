@@ -52,13 +52,13 @@ def enonce(num):
 
 
 @app.route('/scalaskel/change/<int:montant>', methods = ['GET'])
-def scalaskel(montant):
+def scalaskel_change(montant):
     solution = scalaskel.change(montant)
     return make_response(json.dumps(solution))
 
 
 @app.route('/jajascript/optimize', methods = ['POST'])
-def jajascript():
+def jajascript_optimize():
     # print str(request.headers)
     try:
         commandes = json.loads(__read_payload(request))
