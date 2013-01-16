@@ -43,15 +43,15 @@ def rechercher_vols_apres(depart_map, fin, vols_map):
             else:
                 break
 
-def solution(commandes):
+def optimize(commandes):
     """
-    >>> solution([])
+    >>> optimize([])
     {'path': [], 'gain': 0}
 
-    >>> solution([{ 'VOL': 'MONAD42', 'DEPART': 0, 'DUREE': 5, 'PRIX': 10 }])
+    >>> optimize([{ 'VOL': 'MONAD42', 'DEPART': 0, 'DUREE': 5, 'PRIX': 10 }])
     {'path': ['MONAD42'], 'gain': 10}
 
-    >>> solution([
+    >>> optimize([
     ...     { 'VOL': 'MONAD42', 'DEPART': 0, 'DUREE': 5, 'PRIX': 10 },
     ...     { 'VOL': 'META18', 'DEPART': 3, 'DUREE': 7, 'PRIX': 14 },
     ...     { 'VOL': 'LEGACY01', 'DEPART': 5, 'DUREE': 9, 'PRIX': 8 },
@@ -64,32 +64,32 @@ def solution(commandes):
 
     >>> commandes = [{ 'VOL': str(i), 'DEPART': i, 'DUREE': 1, 'PRIX': 1 } for i in range(1, 10)]
     >>> random.shuffle(commandes)
-    >>> solution(commandes)
+    >>> optimize(commandes)
     {'path': ['1', '2', '3', '4', '5', '6', '7', '8', '9'], 'gain': 9}
 
     >>> commandes = [{ 'VOL': str(i), 'DEPART': i, 'DUREE': i, 'PRIX': 1000 - i } for i in range(1, 1000)]
     >>> random.shuffle(commandes)
-    >>> solution(commandes)
+    >>> optimize(commandes)
     {'path': ['1', '2', '4', '8', '16', '32', '64', '128', '256', '512'], 'gain': 8977}
 
     >>> commandes = [{ 'VOL': str(i), 'DEPART': i, 'DUREE': i, 'PRIX': i } for i in range(1, 1000)]
     >>> random.shuffle(commandes)
-    >>> solution(commandes)
+    >>> optimize(commandes)
     {'path': ['1', '3', '7', '15', '31', '62', '124', '249', '499', '999'], 'gain': 1990}
 
     >>> commandes = [{ 'VOL': str(i), 'DEPART': i, 'DUREE': i, 'PRIX': truediv(1, i) } for i in range(1, 100)]
     >>> random.shuffle(commandes)
-    >>> solution(commandes)
+    >>> optimize(commandes)
     {'path': ['1', '2', '4', '8', '16', '32', '64'], 'gain': 1.984375}
 
     >>> commandes = [{ 'VOL': str(i), 'DEPART': i, 'DUREE': i * 2, 'PRIX': i } for i in range(1, 100)]
     >>> random.shuffle(commandes)
-    >>> solution(commandes)
+    >>> optimize(commandes)
     {'path': ['1', '3', '11', '33', '99'], 'gain': 147}
 
     >>> commandes = [{ 'VOL': str(i), 'DEPART': i * 2, 'DUREE': i, 'PRIX': i } for i in range(1, 100)]
     >>> random.shuffle(commandes)
-    >>> solution(commandes)
+    >>> optimize(commandes)
     {'path': ['1', '2', '3', '5', '8', '12', '19', '29', '44', '66', '99'], 'gain': 288}
 
     >>> commandes = [
@@ -99,7 +99,7 @@ def solution(commandes):
     ...     { 'VOL': 'VOL4', 'DEPART': 6, 'DUREE': 2, 'PRIX': 1 }
     ... ]
     >>> random.shuffle(commandes)
-    >>> solution(commandes)
+    >>> optimize(commandes)
     {'path': ['VOL2', 'VOL3', 'VOL4'], 'gain': 3}
     """
     if len(commandes) == 0:
@@ -156,4 +156,4 @@ if __name__ == '__main__':
     import random
     commandes = [{ 'VOL': str(i), 'DEPART': i*2, 'DUREE': i, 'PRIX': i } for i in range(1, 100)]
     random.shuffle(commandes)
-    print solution(commandes)
+    print optimize(commandes)
