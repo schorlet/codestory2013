@@ -126,7 +126,7 @@ def optimize(commandes):
         for vol_apres in vols_apres:
             if vol_apres in precedents:
                 somme_prix = prix_map[vol] + vols_map[vol_apres]['PRIX']
-                if somme_prix > prix_map[vol_apres]:
+                if somme_prix >= prix_map[vol_apres]:
                     prix_map[vol_apres] = somme_prix
                     precedents[vol_apres] = vol
             else:
@@ -153,7 +153,36 @@ def optimize(commandes):
     return resultat
 
 if __name__ == '__main__':
-    import random
-    commandes = [{ 'VOL': str(i), 'DEPART': i*2, 'DUREE': i, 'PRIX': i } for i in range(1, 100)]
-    random.shuffle(commandes)
+    commandes = [{'PRIX': 10, 'DEPART': 0, 'VOL': 'wonderful-macrame-43', 'DUREE': 4},
+        {'PRIX': 6, 'DEPART': 1, 'VOL': 'grotesque-sprawl-83', 'DUREE': 2},
+        {'PRIX': 5, 'DEPART': 2, 'VOL': 'strange-mousetrap-58', 'DUREE': 6},
+        {'PRIX': 4, 'DEPART': 4, 'VOL': 'ashamed-linebacker-28', 'DUREE': 5},
+        {'PRIX': 7, 'DEPART': 5, 'VOL': 'long-airline-80', 'DUREE': 2},
+        {'PRIX': 10, 'DEPART': 5, 'VOL': 'voiceless-values-39', 'DUREE': 4},
+        {'PRIX': 7, 'DEPART': 6, 'VOL': 'dark-chalkboard-14', 'DUREE': 2},
+        {'PRIX': 1, 'DEPART': 7, 'VOL': 'clumsy-visor-47', 'DUREE': 6},
+        {'PRIX': 22, 'DEPART': 9, 'VOL': 'outstanding-jackpot-29', 'DUREE': 5},
+        {'PRIX': 19, 'DEPART': 10, 'VOL': 'elated-sideburns-49', 'DUREE': 2},
+        {'PRIX': 13, 'DEPART': 10, 'VOL': 'hushed-hairstylist-38', 'DUREE': 4},
+        {'PRIX': 9, 'DEPART': 11, 'VOL': 'foolish-bike-13', 'DUREE': 2},
+        {'PRIX': 1, 'DEPART': 12, 'VOL': 'hurt-cookout-25', 'DUREE': 6},
+        {'PRIX': 10, 'DEPART': 14, 'VOL': 'confused-fiddle-51', 'DUREE': 5},
+        {'PRIX': 28, 'DEPART': 15, 'VOL': 'gigantic-sheet-32', 'DUREE': 2},
+        {'PRIX': 12, 'DEPART': 15, 'VOL': 'silent-rattler-22', 'DUREE': 4},
+        {'PRIX': 5, 'DEPART': 16, 'VOL': 'uninterested-seacoast-53', 'DUREE': 2},
+        {'PRIX': 3, 'DEPART': 17, 'VOL': 'famous-stipend-17', 'DUREE': 6},
+        {'PRIX': 4, 'DEPART': 19, 'VOL': 'horrible-beaver-60', 'DUREE': 5},
+        {'PRIX': 25, 'DEPART': 20, 'VOL': 'tall-guy-23', 'DUREE': 2},
+        {'PRIX': 10, 'DEPART': 20, 'VOL': 'dangerous-cap-42', 'DUREE': 4},
+        {'PRIX': 6, 'DEPART': 21, 'VOL': 'stupid-fishhook-65', 'DUREE': 2},
+        {'PRIX': 3, 'DEPART': 22, 'VOL': 'helpful-shipyard-67', 'DUREE': 6},
+        {'PRIX': 22, 'DEPART': 24, 'VOL': 'lazy-buckle-85', 'DUREE': 5},
+        {'PRIX': 2, 'DEPART': 25, 'VOL': 'successful-cat-12', 'DUREE': 2},
+        {'PRIX': 10, 'DEPART': 25, 'VOL': 'stupid-dinner-41', 'DUREE': 4},
+        {'PRIX': 2, 'DEPART': 26, 'VOL': 'motionless-student-82', 'DUREE': 2},
+        {'PRIX': 3, 'DEPART': 27, 'VOL': 'short-life-17', 'DUREE': 6},
+        {'PRIX': 8, 'DEPART': 29, 'VOL': 'immense-rattle-89', 'DUREE': 5},
+        {'PRIX': 13, 'DEPART': 30, 'VOL': 'square-sisterhood-91', 'DUREE': 2}]
     print optimize(commandes)
+    # {'gain': 127, 'path': ['wonderful-macrame-43', 'long-airline-80', 'outstanding-jackpot-29', 'gigantic-sheet-32', 'tall-guy-23', 'lazy-buckle-85', 'square-sisterhood-91']}
+    # {'gain': 127, 'path': ['wonderful-macrame-43', 'dark-chalkboard-14', 'outstanding-jackpot-29', 'gigantic-sheet-32', 'tall-guy-23', 'lazy-buckle-85', 'square-sisterhood-91']}
