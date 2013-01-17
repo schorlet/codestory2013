@@ -62,7 +62,9 @@ def jajascript_optimize():
     # print str(request.headers)
     try:
         commandes = json.loads(__read_payload(request))
+        print str(commandes)
         solution = jajascript.optimize(commandes)
+        print str(solution)
         response = make_response(json.dumps(solution, sort_keys=True, separators=(',', ' : ')), 201)
         response.headers['Content-Type'] = 'application/json'
         return response
