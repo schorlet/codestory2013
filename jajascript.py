@@ -101,6 +101,30 @@ def optimize(commandes):
     >>> random.shuffle(commandes)
     >>> optimize(commandes)
     {'path': ['VOL2', 'VOL3', 'VOL4'], 'gain': 3}
+
+    >>> commandes = [{'PRIX': 13, 'DEPART': 0, 'VOL': 'puny-violin-24', 'DUREE': 4}, {'PRIX': 10, 'DEPART': 1, 'VOL': 'fantastic-stardom-58', 'DUREE': 2}, {'PRIX': 2, 'DEPART': 2, 'VOL': 'exuberant-linesman-34', 'DUREE': 6}, {'PRIX': 19, 'DEPART': 4, 'VOL': 'unsightly-khaki-48', 'DUREE': 5}, {'PRIX': 21, 'DEPART': 5, 'VOL': 'annoying-missionary-38', 'DUREE': 2}]
+    >>> optimize(commandes)
+    {'path': ['puny-violin-24', 'annoying-missionary-38'], 'gain': 34}
+
+    >>> commandes = [{'PRIX': 8, 'DEPART': 0, 'VOL': 'soft-penniless-43', 'DUREE': 4}, {'PRIX': 9, 'DEPART': 1, 'VOL': 'teeny-tiny-walkietalkie-33', 'DUREE': 2}, {'PRIX': 2, 'DEPART': 2, 'VOL': 'tall-tyranny-72', 'DUREE': 6}, {'PRIX': 16, 'DEPART': 4, 'VOL': 'excited-supervisor-94', 'DUREE': 5}, {'PRIX': 30, 'DEPART': 5, 'VOL': 'crowded-graveyard-80', 'DUREE': 2}, {'PRIX': 7, 'DEPART': 5, 'VOL': 'purring-comedienne-91', 'DUREE': 4}, {'PRIX': 10, 'DEPART': 6, 'VOL': 'black-groundhog-18', 'DUREE': 2}, {'PRIX': 4, 'DEPART': 7, 'VOL': 'doubtful-risk-19', 'DUREE': 6}, {'PRIX': 20, 'DEPART': 9, 'VOL': 'miniature-hamper-11', 'DUREE': 5}, {'PRIX': 1, 'DEPART': 10, 'VOL': 'fierce-sneaker-70', 'DUREE': 2}]
+    >>> optimize(commandes)
+    {'path': ['teeny-tiny-walkietalkie-33', 'crowded-graveyard-80', 'miniature-hamper-11'], 'gain': 59}
+
+    >>> commandes = [{'PRIX': 14, 'DEPART': 0, 'VOL': 'grumpy-rubberstamp-77', 'DUREE': 4}, {'PRIX': 3, 'DEPART': 1, 'VOL': 'ancient-backstage-29', 'DUREE': 2}, {'PRIX': 3, 'DEPART': 2, 'VOL': 'raspy-whey-63', 'DUREE': 6}, {'PRIX': 12, 'DEPART': 4, 'VOL': 'lazy-hill-19', 'DUREE': 5}, {'PRIX': 8, 'DEPART': 5, 'VOL': 'narrow-romance-18', 'DUREE': 2}, {'PRIX': 8, 'DEPART': 5, 'VOL': 'enchanting-stepmother-18', 'DUREE': 4}, {'PRIX': 4, 'DEPART': 6, 'VOL': 'hungry-revenge-29', 'DUREE': 2}, {'PRIX': 6, 'DEPART': 7, 'VOL': 'testy-somebody-42', 'DUREE': 6}, {'PRIX': 7, 'DEPART': 9, 'VOL': 'scrawny-rudder-35', 'DUREE': 5}, {'PRIX': 30, 'DEPART': 10, 'VOL': 'old-fashioned-cardboard-81', 'DUREE': 2}, {'PRIX': 15, 'DEPART': 10, 'VOL': 'weary-harmonica-51', 'DUREE': 4}, {'PRIX': 5, 'DEPART': 11, 'VOL': 'deafening-label-85', 'DUREE': 2}, {'PRIX': 6, 'DEPART': 12, 'VOL': 'bloody-symbol-63', 'DUREE': 6}, {'PRIX': 19, 'DEPART': 14, 'VOL': 'squealing-rob-21', 'DUREE': 5}, {'PRIX': 13, 'DEPART': 15, 'VOL': 'worried-violin-2', 'DUREE': 2}]
+    >>> optimize(commandes)
+    {'path': ['grumpy-rubberstamp-77', 'lazy-hill-19', 'old-fashioned-cardboard-81', 'squealing-rob-21'], 'gain': 75}
+
+    >>> commandes = [{'PRIX': 9, 'DEPART': 0, 'VOL': 'fat-tycoon-6', 'DUREE': 4}, {'PRIX': 2, 'DEPART': 1, 'VOL': 'colorful-rhino-5', 'DUREE': 2}, {'PRIX': 3, 'DEPART': 2, 'VOL': 'gigantic-rectangle-77', 'DUREE': 6}, {'PRIX': 4, 'DEPART': 4, 'VOL': 'crazy-merrygoround-57', 'DUREE': 5}, {'PRIX': 28, 'DEPART': 5, 'VOL': 'clumsy-railing-40', 'DUREE': 2}, {'PRIX': 15, 'DEPART': 5, 'VOL': 'fat-graphic-94', 'DUREE': 4}, {'PRIX': 5, 'DEPART': 6, 'VOL': 'fancy-dot-24', 'DUREE': 2}, {'PRIX': 4, 'DEPART': 7, 'VOL': 'high-pitched-zenith-87', 'DUREE': 6}, {'PRIX': 6, 'DEPART': 9, 'VOL': 'faint-calendar-81', 'DUREE': 5}, {'PRIX': 13, 'DEPART': 10, 'VOL': 'muddy-commando-39', 'DUREE': 2}, {'PRIX': 12, 'DEPART': 10, 'VOL': 'moaning-comedienne-45', 'DUREE': 4}, {'PRIX': 9, 'DEPART': 11, 'VOL': 'dangerous-bellows-42', 'DUREE': 2}, {'PRIX': 5, 'DEPART': 12, 'VOL': 'brave-mustang-70', 'DUREE': 6}, {'PRIX': 5, 'DEPART': 14, 'VOL': 'hurt-net-43', 'DUREE': 5}, {'PRIX': 24, 'DEPART': 15, 'VOL': 'unusual-killer-75', 'DUREE': 2}, {'PRIX': 8, 'DEPART': 15, 'VOL': 'short-pastrami-79', 'DUREE': 4}, {'PRIX': 6, 'DEPART': 16, 'VOL': 'graceful-windsurfing-55', 'DUREE': 2}, {'PRIX': 1, 'DEPART': 17, 'VOL': 'adventurous-twinkle-28', 'DUREE': 6}, {'PRIX': 6, 'DEPART': 19, 'VOL': 'shrill-flax-62', 'DUREE': 5}, {'PRIX': 21, 'DEPART': 20, 'VOL': 'young-soprano-62', 'DUREE': 2}]
+    >>> optimize(commandes)
+    {'path': ['fat-tycoon-6', 'clumsy-railing-40', 'muddy-commando-39', 'unusual-killer-75', 'young-soprano-62'], 'gain': 95}
+
+    >>> commandes = [{'PRIX': 6, 'DEPART': 0, 'VOL': 'expensive-zombie-63', 'DUREE': 4}, {'PRIX': 3, 'DEPART': 1, 'VOL': 'defiant-amphetamine-87', 'DUREE': 2}, {'PRIX': 5, 'DEPART': 2, 'VOL': 'glamorous-waltz-67', 'DUREE': 6}, {'PRIX': 18, 'DEPART': 4, 'VOL': 'large-machinist-50', 'DUREE': 5}, {'PRIX': 14, 'DEPART': 5, 'VOL': 'black-polyester-26', 'DUREE': 2}, {'PRIX': 13, 'DEPART': 5, 'VOL': 'doubtful-detective-44', 'DUREE': 4}, {'PRIX': 7, 'DEPART': 6, 'VOL': 'breakable-saturn-23', 'DUREE': 2}, {'PRIX': 6, 'DEPART': 7, 'VOL': 'horrible-dime-6', 'DUREE': 6}, {'PRIX': 13, 'DEPART': 9, 'VOL': 'kind-welt-59', 'DUREE': 5}, {'PRIX': 10, 'DEPART': 10, 'VOL': 'rapid-verb-86', 'DUREE': 2}, {'PRIX': 11, 'DEPART': 10, 'VOL': 'grumpy-somewhere-64', 'DUREE': 4}, {'PRIX': 1, 'DEPART': 11, 'VOL': 'outstanding-dude-52', 'DUREE': 2}, {'PRIX': 2, 'DEPART': 12, 'VOL': 'gleaming-sunbather-69', 'DUREE': 6}, {'PRIX': 21, 'DEPART': 14, 'VOL': 'confused-windowpane-85', 'DUREE': 5}, {'PRIX': 27, 'DEPART': 15, 'VOL': 'wild-bifocal-73', 'DUREE': 2}, {'PRIX': 10, 'DEPART': 15, 'VOL': 'modern-handgun-67', 'DUREE': 4}, {'PRIX': 5, 'DEPART': 16, 'VOL': 'poor-slogan-89', 'DUREE': 2}, {'PRIX': 1, 'DEPART': 17, 'VOL': 'muddy-flowerpot-66', 'DUREE': 6}, {'PRIX': 4, 'DEPART': 19, 'VOL': 'angry-grass-40', 'DUREE': 5}, {'PRIX': 10, 'DEPART': 20, 'VOL': 'wrong-surgery-17', 'DUREE': 2}, {'PRIX': 10, 'DEPART': 20, 'VOL': 'immense-spaniel-90', 'DUREE': 4}, {'PRIX': 10, 'DEPART': 21, 'VOL': 'panicky-steam-40', 'DUREE': 2}, {'PRIX': 2, 'DEPART': 22, 'VOL': 'brainy-ulcer-30', 'DUREE': 6}, {'PRIX': 18, 'DEPART': 24, 'VOL': 'fine-waiver-78', 'DUREE': 5}, {'PRIX': 22, 'DEPART': 25, 'VOL': 'mushy-newscaster-11', 'DUREE': 2}]
+    >>> optimize(commandes)
+    {'path': ['expensive-zombie-63', 'large-machinist-50', 'kind-welt-59', 'wild-bifocal-73', 'wrong-surgery-17', 'mushy-newscaster-11'], 'gain': 96}
+
+    >>> commandes = [{'PRIX': 10, 'DEPART': 0, 'VOL': 'wonderful-macrame-43', 'DUREE': 4}, {'PRIX': 6, 'DEPART': 1, 'VOL': 'grotesque-sprawl-83', 'DUREE': 2}, {'PRIX': 5, 'DEPART': 2, 'VOL': 'strange-mousetrap-58', 'DUREE': 6}, {'PRIX': 4, 'DEPART': 4, 'VOL': 'ashamed-linebacker-28', 'DUREE': 5}, {'PRIX': 7, 'DEPART': 5, 'VOL': 'long-airline-80', 'DUREE': 2}, {'PRIX': 10, 'DEPART': 5, 'VOL': 'voiceless-values-39', 'DUREE': 4}, {'PRIX': 7, 'DEPART': 6, 'VOL': 'dark-chalkboard-14', 'DUREE': 2}, {'PRIX': 1, 'DEPART': 7, 'VOL': 'clumsy-visor-47', 'DUREE': 6}, {'PRIX': 22, 'DEPART': 9, 'VOL': 'outstanding-jackpot-29', 'DUREE': 5}, {'PRIX': 19, 'DEPART': 10, 'VOL': 'elated-sideburns-49', 'DUREE': 2}, {'PRIX': 13, 'DEPART': 10, 'VOL': 'hushed-hairstylist-38', 'DUREE': 4}, {'PRIX': 9, 'DEPART': 11, 'VOL': 'foolish-bike-13', 'DUREE': 2}, {'PRIX': 1, 'DEPART': 12, 'VOL': 'hurt-cookout-25', 'DUREE': 6}, {'PRIX': 10, 'DEPART': 14, 'VOL': 'confused-fiddle-51', 'DUREE': 5}, {'PRIX': 28, 'DEPART': 15, 'VOL': 'gigantic-sheet-32', 'DUREE': 2}, {'PRIX': 12, 'DEPART': 15, 'VOL': 'silent-rattler-22', 'DUREE': 4}, {'PRIX': 5, 'DEPART': 16, 'VOL': 'uninterested-seacoast-53', 'DUREE': 2}, {'PRIX': 3, 'DEPART': 17, 'VOL': 'famous-stipend-17', 'DUREE': 6}, {'PRIX': 4, 'DEPART': 19, 'VOL': 'horrible-beaver-60', 'DUREE': 5}, {'PRIX': 25, 'DEPART': 20, 'VOL': 'tall-guy-23', 'DUREE': 2}, {'PRIX': 10, 'DEPART': 20, 'VOL': 'dangerous-cap-42', 'DUREE': 4}, {'PRIX': 6, 'DEPART': 21, 'VOL': 'stupid-fishhook-65', 'DUREE': 2}, {'PRIX': 3, 'DEPART': 22, 'VOL': 'helpful-shipyard-67', 'DUREE': 6}, {'PRIX': 22, 'DEPART': 24, 'VOL': 'lazy-buckle-85', 'DUREE': 5}, {'PRIX': 2, 'DEPART': 25, 'VOL': 'successful-cat-12', 'DUREE': 2}, {'PRIX': 10, 'DEPART': 25, 'VOL': 'stupid-dinner-41', 'DUREE': 4}, {'PRIX': 2, 'DEPART': 26, 'VOL': 'motionless-student-82', 'DUREE': 2}, {'PRIX': 3, 'DEPART': 27, 'VOL': 'short-life-17', 'DUREE': 6}, {'PRIX': 8, 'DEPART': 29, 'VOL': 'immense-rattle-89', 'DUREE': 5}, {'PRIX': 13, 'DEPART': 30, 'VOL': 'square-sisterhood-91', 'DUREE': 2}]
+    >>> optimize(commandes)
+    {'path': ['wonderful-macrame-43', 'dark-chalkboard-14', 'outstanding-jackpot-29', 'gigantic-sheet-32', 'tall-guy-23', 'lazy-buckle-85', 'square-sisterhood-91'], 'gain': 127}
     """
     if len(commandes) == 0:
         return { 'gain': 0, 'path': list() }
@@ -157,57 +181,4 @@ def optimize(commandes):
     return resultat
 
 if __name__ == '__main__':
-
-    commandes = [{'PRIX': 13, 'DEPART': 0, 'VOL': 'puny-violin-24', 'DUREE': 4}, {'PRIX': 10, 'DEPART': 1, 'VOL': 'fantastic-stardom-58', 'DUREE': 2}, {'PRIX': 2, 'DEPART': 2, 'VOL': 'exuberant-linesman-34', 'DUREE': 6}, {'PRIX': 19, 'DEPART': 4, 'VOL': 'unsightly-khaki-48', 'DUREE': 5}, {'PRIX': 21, 'DEPART': 5, 'VOL': 'annoying-missionary-38', 'DUREE': 2}]
-    print optimize(commandes)
-    print {'gain': 34, 'path': ['puny-violin-24', 'annoying-missionary-38']}
-    print '----'
-
-    commandes = [{'PRIX': 8, 'DEPART': 0, 'VOL': 'soft-penniless-43', 'DUREE': 4}, {'PRIX': 9, 'DEPART': 1, 'VOL': 'teeny-tiny-walkietalkie-33', 'DUREE': 2}, {'PRIX': 2, 'DEPART': 2, 'VOL': 'tall-tyranny-72', 'DUREE': 6}, {'PRIX': 16, 'DEPART': 4, 'VOL': 'excited-supervisor-94', 'DUREE': 5}, {'PRIX': 30, 'DEPART': 5, 'VOL': 'crowded-graveyard-80', 'DUREE': 2}, {'PRIX': 7, 'DEPART': 5, 'VOL': 'purring-comedienne-91', 'DUREE': 4}, {'PRIX': 10, 'DEPART': 6, 'VOL': 'black-groundhog-18', 'DUREE': 2}, {'PRIX': 4, 'DEPART': 7, 'VOL': 'doubtful-risk-19', 'DUREE': 6}, {'PRIX': 20, 'DEPART': 9, 'VOL': 'miniature-hamper-11', 'DUREE': 5}, {'PRIX': 1, 'DEPART': 10, 'VOL': 'fierce-sneaker-70', 'DUREE': 2}]
-    print optimize(commandes)
-    print {'gain': 59, 'path': ['teeny-tiny-walkietalkie-33', 'crowded-graveyard-80', 'miniature-hamper-11']}
-    print '----'
-
-    commandes = [{'PRIX': 14, 'DEPART': 0, 'VOL': 'grumpy-rubberstamp-77', 'DUREE': 4}, {'PRIX': 3, 'DEPART': 1, 'VOL': 'ancient-backstage-29', 'DUREE': 2}, {'PRIX': 3, 'DEPART': 2, 'VOL': 'raspy-whey-63', 'DUREE': 6}, {'PRIX': 12, 'DEPART': 4, 'VOL': 'lazy-hill-19', 'DUREE': 5}, {'PRIX': 8, 'DEPART': 5, 'VOL': 'narrow-romance-18', 'DUREE': 2}, {'PRIX': 8, 'DEPART': 5, 'VOL': 'enchanting-stepmother-18', 'DUREE': 4}, {'PRIX': 4, 'DEPART': 6, 'VOL': 'hungry-revenge-29', 'DUREE': 2}, {'PRIX': 6, 'DEPART': 7, 'VOL': 'testy-somebody-42', 'DUREE': 6}, {'PRIX': 7, 'DEPART': 9, 'VOL': 'scrawny-rudder-35', 'DUREE': 5}, {'PRIX': 30, 'DEPART': 10, 'VOL': 'old-fashioned-cardboard-81', 'DUREE': 2}, {'PRIX': 15, 'DEPART': 10, 'VOL': 'weary-harmonica-51', 'DUREE': 4}, {'PRIX': 5, 'DEPART': 11, 'VOL': 'deafening-label-85', 'DUREE': 2}, {'PRIX': 6, 'DEPART': 12, 'VOL': 'bloody-symbol-63', 'DUREE': 6}, {'PRIX': 19, 'DEPART': 14, 'VOL': 'squealing-rob-21', 'DUREE': 5}, {'PRIX': 13, 'DEPART': 15, 'VOL': 'worried-violin-2', 'DUREE': 2}]
-    print optimize(commandes)
-    print {'gain': 75, 'path': ['grumpy-rubberstamp-77', 'lazy-hill-19', 'old-fashioned-cardboard-81', 'squealing-rob-21']}
-    print '----'
-
-    commandes = [{'PRIX': 9, 'DEPART': 0, 'VOL': 'fat-tycoon-6', 'DUREE': 4}, {'PRIX': 2, 'DEPART': 1, 'VOL': 'colorful-rhino-5', 'DUREE': 2}, {'PRIX': 3, 'DEPART': 2, 'VOL': 'gigantic-rectangle-77', 'DUREE': 6}, {'PRIX': 4, 'DEPART': 4, 'VOL': 'crazy-merrygoround-57', 'DUREE': 5}, {'PRIX': 28, 'DEPART': 5, 'VOL': 'clumsy-railing-40', 'DUREE': 2}, {'PRIX': 15, 'DEPART': 5, 'VOL': 'fat-graphic-94', 'DUREE': 4}, {'PRIX': 5, 'DEPART': 6, 'VOL': 'fancy-dot-24', 'DUREE': 2}, {'PRIX': 4, 'DEPART': 7, 'VOL': 'high-pitched-zenith-87', 'DUREE': 6}, {'PRIX': 6, 'DEPART': 9, 'VOL': 'faint-calendar-81', 'DUREE': 5}, {'PRIX': 13, 'DEPART': 10, 'VOL': 'muddy-commando-39', 'DUREE': 2}, {'PRIX': 12, 'DEPART': 10, 'VOL': 'moaning-comedienne-45', 'DUREE': 4}, {'PRIX': 9, 'DEPART': 11, 'VOL': 'dangerous-bellows-42', 'DUREE': 2}, {'PRIX': 5, 'DEPART': 12, 'VOL': 'brave-mustang-70', 'DUREE': 6}, {'PRIX': 5, 'DEPART': 14, 'VOL': 'hurt-net-43', 'DUREE': 5}, {'PRIX': 24, 'DEPART': 15, 'VOL': 'unusual-killer-75', 'DUREE': 2}, {'PRIX': 8, 'DEPART': 15, 'VOL': 'short-pastrami-79', 'DUREE': 4}, {'PRIX': 6, 'DEPART': 16, 'VOL': 'graceful-windsurfing-55', 'DUREE': 2}, {'PRIX': 1, 'DEPART': 17, 'VOL': 'adventurous-twinkle-28', 'DUREE': 6}, {'PRIX': 6, 'DEPART': 19, 'VOL': 'shrill-flax-62', 'DUREE': 5}, {'PRIX': 21, 'DEPART': 20, 'VOL': 'young-soprano-62', 'DUREE': 2}]
-    print optimize(commandes)
-    print {'gain': 95, 'path': ['fat-tycoon-6', 'clumsy-railing-40', 'muddy-commando-39', 'unusual-killer-75', 'young-soprano-62']}
-    print '----'
-
-    commandes = [{'PRIX': 6, 'DEPART': 0, 'VOL': 'expensive-zombie-63', 'DUREE': 4},
-        {'PRIX': 3, 'DEPART': 1, 'VOL': 'defiant-amphetamine-87', 'DUREE': 2},
-        {'PRIX': 5, 'DEPART': 2, 'VOL': 'glamorous-waltz-67', 'DUREE': 6},
-        {'PRIX': 18, 'DEPART': 4, 'VOL': 'large-machinist-50', 'DUREE': 5},
-        {'PRIX': 14, 'DEPART': 5, 'VOL': 'black-polyester-26', 'DUREE': 2},
-        {'PRIX': 13, 'DEPART': 5, 'VOL': 'doubtful-detective-44', 'DUREE': 4},
-        {'PRIX': 7, 'DEPART': 6, 'VOL': 'breakable-saturn-23', 'DUREE': 2},
-        {'PRIX': 6, 'DEPART': 7, 'VOL': 'horrible-dime-6', 'DUREE': 6},
-        {'PRIX': 13, 'DEPART': 9, 'VOL': 'kind-welt-59', 'DUREE': 5},
-        {'PRIX': 10, 'DEPART': 10, 'VOL': 'rapid-verb-86', 'DUREE': 2},
-        {'PRIX': 11, 'DEPART': 10, 'VOL': 'grumpy-somewhere-64', 'DUREE': 4},
-        {'PRIX': 1, 'DEPART': 11, 'VOL': 'outstanding-dude-52', 'DUREE': 2},
-        {'PRIX': 2, 'DEPART': 12, 'VOL': 'gleaming-sunbather-69', 'DUREE': 6},
-        {'PRIX': 21, 'DEPART': 14, 'VOL': 'confused-windowpane-85', 'DUREE': 5},
-        {'PRIX': 27, 'DEPART': 15, 'VOL': 'wild-bifocal-73', 'DUREE': 2},
-        {'PRIX': 10, 'DEPART': 15, 'VOL': 'modern-handgun-67', 'DUREE': 4},
-        {'PRIX': 5, 'DEPART': 16, 'VOL': 'poor-slogan-89', 'DUREE': 2},
-        {'PRIX': 1, 'DEPART': 17, 'VOL': 'muddy-flowerpot-66', 'DUREE': 6},
-        {'PRIX': 4, 'DEPART': 19, 'VOL': 'angry-grass-40', 'DUREE': 5},
-        {'PRIX': 10, 'DEPART': 20, 'VOL': 'wrong-surgery-17', 'DUREE': 2},
-        {'PRIX': 10, 'DEPART': 20, 'VOL': 'immense-spaniel-90', 'DUREE': 4},
-        {'PRIX': 10, 'DEPART': 21, 'VOL': 'panicky-steam-40', 'DUREE': 2},
-        {'PRIX': 2, 'DEPART': 22, 'VOL': 'brainy-ulcer-30', 'DUREE': 6},
-        {'PRIX': 18, 'DEPART': 24, 'VOL': 'fine-waiver-78', 'DUREE': 5},
-        {'PRIX': 22, 'DEPART': 25, 'VOL': 'mushy-newscaster-11', 'DUREE': 2}]
-    print optimize(commandes)
-    print {'gain': 96, 'path': ['expensive-zombie-63', 'large-machinist-50', 'kind-welt-59', 'wild-bifocal-73', 'wrong-surgery-17', 'mushy-newscaster-11']}
-    print '----'
-
-    commandes = [{'PRIX': 10, 'DEPART': 0, 'VOL': 'wonderful-macrame-43', 'DUREE': 4}, {'PRIX': 6, 'DEPART': 1, 'VOL': 'grotesque-sprawl-83', 'DUREE': 2}, {'PRIX': 5, 'DEPART': 2, 'VOL': 'strange-mousetrap-58', 'DUREE': 6}, {'PRIX': 4, 'DEPART': 4, 'VOL': 'ashamed-linebacker-28', 'DUREE': 5}, {'PRIX': 7, 'DEPART': 5, 'VOL': 'long-airline-80', 'DUREE': 2}, {'PRIX': 10, 'DEPART': 5, 'VOL': 'voiceless-values-39', 'DUREE': 4}, {'PRIX': 7, 'DEPART': 6, 'VOL': 'dark-chalkboard-14', 'DUREE': 2}, {'PRIX': 1, 'DEPART': 7, 'VOL': 'clumsy-visor-47', 'DUREE': 6}, {'PRIX': 22, 'DEPART': 9, 'VOL': 'outstanding-jackpot-29', 'DUREE': 5}, {'PRIX': 19, 'DEPART': 10, 'VOL': 'elated-sideburns-49', 'DUREE': 2}, {'PRIX': 13, 'DEPART': 10, 'VOL': 'hushed-hairstylist-38', 'DUREE': 4}, {'PRIX': 9, 'DEPART': 11, 'VOL': 'foolish-bike-13', 'DUREE': 2}, {'PRIX': 1, 'DEPART': 12, 'VOL': 'hurt-cookout-25', 'DUREE': 6}, {'PRIX': 10, 'DEPART': 14, 'VOL': 'confused-fiddle-51', 'DUREE': 5}, {'PRIX': 28, 'DEPART': 15, 'VOL': 'gigantic-sheet-32', 'DUREE': 2}, {'PRIX': 12, 'DEPART': 15, 'VOL': 'silent-rattler-22', 'DUREE': 4}, {'PRIX': 5, 'DEPART': 16, 'VOL': 'uninterested-seacoast-53', 'DUREE': 2}, {'PRIX': 3, 'DEPART': 17, 'VOL': 'famous-stipend-17', 'DUREE': 6}, {'PRIX': 4, 'DEPART': 19, 'VOL': 'horrible-beaver-60', 'DUREE': 5}, {'PRIX': 25, 'DEPART': 20, 'VOL': 'tall-guy-23', 'DUREE': 2}, {'PRIX': 10, 'DEPART': 20, 'VOL': 'dangerous-cap-42', 'DUREE': 4}, {'PRIX': 6, 'DEPART': 21, 'VOL': 'stupid-fishhook-65', 'DUREE': 2}, {'PRIX': 3, 'DEPART': 22, 'VOL': 'helpful-shipyard-67', 'DUREE': 6}, {'PRIX': 22, 'DEPART': 24, 'VOL': 'lazy-buckle-85', 'DUREE': 5}, {'PRIX': 2, 'DEPART': 25, 'VOL': 'successful-cat-12', 'DUREE': 2}, {'PRIX': 10, 'DEPART': 25, 'VOL': 'stupid-dinner-41', 'DUREE': 4}, {'PRIX': 2, 'DEPART': 26, 'VOL': 'motionless-student-82', 'DUREE': 2}, {'PRIX': 3, 'DEPART': 27, 'VOL': 'short-life-17', 'DUREE': 6}, {'PRIX': 8, 'DEPART': 29, 'VOL': 'immense-rattle-89', 'DUREE': 5}, {'PRIX': 13, 'DEPART': 30, 'VOL': 'square-sisterhood-91', 'DUREE': 2}]
-    print optimize(commandes)
-    # {'gain': 127, 'path': ['wonderful-macrame-43', 'long-airline-80', 'outstanding-jackpot-29', 'gigantic-sheet-32', 'tall-guy-23', 'lazy-buckle-85', 'square-sisterhood-91']}
-    print {'gain': 127, 'path': ['wonderful-macrame-43', 'dark-chalkboard-14', 'outstanding-jackpot-29', 'gigantic-sheet-32', 'tall-guy-23', 'lazy-buckle-85', 'square-sisterhood-91']}
+    pass
