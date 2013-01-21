@@ -67,10 +67,6 @@ def jajascript_optimize():
     try:
         commandes = json.loads(__read_payload(request))
         solution = jajascript.optimize(commandes)
-        if len(commandes) < 120:
-            from pprint import pprint
-            pprint(commandes)
-            print str(solution)
         response = make_response(json.dumps(solution, sort_keys=True, separators=(',', ' : ')), 201)
         response.headers['Content-Type'] = 'application/json'
         return response
