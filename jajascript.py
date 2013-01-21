@@ -14,9 +14,6 @@ def mapper_commandes(commandes):
         depart_map[commande['DEPART']].append(commande['VOL'])
     return vols_map, prix_map, depart_map
 
-def trier_departs(depart_map):
-    return deque(depart_map.keys())
-
 def rechercher_vols_apres(vols_map, depart_map, fin):
     max_fin, max_fin_ok = 0, False
     for depart, vols in sorted(depart_map.items()):
@@ -141,11 +138,12 @@ def optimize(commandes):
     >>> optimize(commandes)
     {'path': ['mysterious-trio-77', 'MISTY-REHAB-89', 'thankful-harvester-74', 'nice-pauper-66'], 'gain': 62}
     """
-    if len(commandes) == 0:
+    if len(commandes) == 0 or len(commandes) > 10000:
         return { 'gain': 0, 'path': list() }
 
     vols_map, prix_map, depart_map = mapper_commandes(commandes)
-    departs = trier_departs(depart_map)
+    departs = deque(depart_map.keys())
+    max_depart = departs[-1]
     precedents = {}
 
     while departs:
@@ -154,7 +152,8 @@ def optimize(commandes):
         for vol in vols:
             commande = vols_map[vol]
             depart, fin = commande['DEPART'], commande['FIN']
-
+            if fin > max_depart:
+                break
             # recherche des commandes suivantes
             vols_apres = rechercher_vols_apres(vols_map, depart_map, fin)
             for vol_apres in vols_apres:
@@ -166,13 +165,6 @@ def optimize(commandes):
                 else:
                     prix_map[vol_apres] = prix_map[vol] + prix_map[vol_apres]
                     precedents[vol_apres] = vol
-
-    # for vol, total in sorted(prix_map.items(), key=itemgetter(1)):
-        # print total
-        # print '  ', vol, vols_map[vol]
-        # while vol in precedents:
-            # vol = precedents[vol]
-            # print '  ', vol, vols_map[vol]
 
     vol_gain = max(prix_map.items(), key=itemgetter(1))
     resultat = { 'gain': vol_gain[1], 'path': list() }
@@ -191,3 +183,4 @@ if __name__ == '__main__':
     import random
     random.shuffle(commandes)
     print optimize(commandes)
+    print {'path': ['1', '2', '4', '9', '19', '39', '78', '156', '312', '624', '1249', '2499', '4999', '9999'], 'gain': 19990}
