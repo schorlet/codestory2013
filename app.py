@@ -53,8 +53,12 @@ def enonce(num):
 
 @app.route('/scalaskel/change/<int:montant>', methods = ['GET'])
 def scalaskel_change(montant):
-    solution = scalaskel.change(montant)
-    return make_response(json.dumps(solution))
+    try:
+        solution = scalaskel.change(montant)
+        return make_response(json.dumps(solution))
+    except:
+        pass
+    abort(400)
 
 
 @app.route('/jajascript/optimize', methods = ['POST'])
@@ -62,9 +66,11 @@ def jajascript_optimize():
     # print str(request.headers)
     try:
         commandes = json.loads(__read_payload(request))
-        # print str(commandes)
         solution = jajascript.optimize(commandes)
-        # print str(solution)
+        if len(commandes) < 120:
+            from pprint import pprint
+            pprint(commandes)
+            print str(solution)
         response = make_response(json.dumps(solution, sort_keys=True, separators=(',', ' : ')), 201)
         response.headers['Content-Type'] = 'application/json'
         return response

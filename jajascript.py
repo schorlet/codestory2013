@@ -1,46 +1,30 @@
 #-*- coding:utf-8 -*-
-import itertools
 from operator import itemgetter
 from collections import defaultdict
+from collections import deque
 
 def mapper_commandes(commandes):
-    """map des commandes indexées par VOL,
-    map des PRIX indexées par VOL,
-    map des VOL indexées par DEPART"""
     vols_map, prix_map = dict(), dict()
     depart_map = defaultdict(list)
-    max_depart = 0
     for commande in commandes:
-        if commande['DEPART'] > max_depart:
-            max_depart = commande['DEPART']
         vols_map[commande['VOL']] = {
-                'PRIX': commande['PRIX'],
-                'DEPART': commande['DEPART'],
+                'PRIX': commande['PRIX'], 'DEPART': commande['DEPART'],
                 'FIN': commande['DEPART'] + commande['DUREE'] }
         prix_map[commande['VOL']] = commande['PRIX']
         depart_map[commande['DEPART']].append(commande['VOL'])
-    return vols_map, prix_map, depart_map, max_depart
+    return vols_map, prix_map, depart_map
 
-def trier_vols_par_depart(depart_map):
-    """iterateur des VOL triées par DEPART"""
-    for depart, vols in sorted(depart_map.items()):
-        yield next(iter(vols))
+def trier_departs(depart_map):
+    return deque(depart_map.keys())
 
-def rechercher_vols_apres(depart_map, fin, vols_map):
-    """iterateur des VOL avec DEPART >= FIN"""
-    max_fin, max_fin_ok = 0, False
-    for depart, vols in sorted(depart_map.items()):
+def rechercher_vols_apres(departs, depart_map, fin):
+    test = 0
+    for depart in departs:
         if depart >= fin:
-            if not max_fin_ok:
-                max_fin_ok = True
-                for vol in vols:
-                    vol_fin = vols_map[vol]['FIN']
-                    if vol_fin > max_fin:
-                        max_fin = vol_fin
-                    yield vol
-            elif depart < max_fin:
-                yield next(iter(vols))
-            else:
+            vols = depart_map[depart]
+            yield next(iter(vols))
+            test += 1
+            if test > 2:
                 break
 
 def optimize(commandes):
@@ -61,7 +45,6 @@ def optimize(commandes):
 
     >>> import random
     >>> from operator import truediv
-
     >>> commandes = [{ 'VOL': str(i), 'DEPART': i, 'DUREE': 1, 'PRIX': 1 } for i in range(1, 10)]
     >>> random.shuffle(commandes)
     >>> optimize(commandes)
@@ -129,37 +112,38 @@ def optimize(commandes):
     if len(commandes) == 0:
         return { 'gain': 0, 'path': list() }
 
-    vols_map, prix_map, depart_map, max_depart = mapper_commandes(commandes)
-    vols = trier_vols_par_depart(depart_map)
+    vols_map, prix_map, depart_map = mapper_commandes(commandes)
+    departs = trier_departs(depart_map)
     precedents = {}
 
-    for vol in vols:
-        commande = vols_map[vol]
-        depart, fin = commande['DEPART'], commande['FIN']
+    while departs:
+        depart = departs.popleft()
+        vols = depart_map[depart]
+        for vol in vols:
+            commande = vols_map[vol]
+            depart, fin = commande['DEPART'], commande['FIN']
 
-        # suppression du vol de depart_map
-        depart_map[depart].remove(vol)
-        if not depart_map[depart]:
-            del depart_map[depart]
+            # suppression du vol de depart_map
+            depart_map[depart].remove(vol)
+            if not depart_map[depart]:
+                del depart_map[depart]
 
-        if fin > max_depart:
-            continue
-
-        # recherche des commandes suivantes
-        vols_apres = rechercher_vols_apres(depart_map, fin, vols_map)
-        for vol_apres in vols_apres:
-            if vol_apres in precedents:
-                somme_prix = prix_map[vol] + vols_map[vol_apres]['PRIX']
-                if somme_prix > prix_map[vol_apres]:
-                    prix_map[vol_apres] = somme_prix
-                    precedents[vol_apres] = vol
-                elif somme_prix == prix_map[vol_apres]:
-                    # truc hyper bizarre
-                    if vol[-2:] < precedents[vol_apres][-2:]:
+            # recherche des commandes suivantes
+            vols_apres = rechercher_vols_apres(departs, depart_map, fin)
+            for vol_apres in vols_apres:
+                if vol_apres in precedents:
+                    somme_prix = prix_map[vol] + vols_map[vol_apres]['PRIX']
+                    if somme_prix > prix_map[vol_apres]:
+                        prix_map[vol_apres] = somme_prix
                         precedents[vol_apres] = vol
-            else:
-                prix_map[vol_apres] = prix_map[vol] + prix_map[vol_apres]
-                precedents[vol_apres] = vol
+                    elif somme_prix == prix_map[vol_apres]:
+                        # truc hyper bizarre
+                        if vol[-2:] < precedents[vol_apres][-2:]:
+                            precedents[vol_apres] = vol
+
+                else:
+                    prix_map[vol_apres] = prix_map[vol] + prix_map[vol_apres]
+                    precedents[vol_apres] = vol
 
     # for vol, total in sorted(prix_map.items(), key=itemgetter(1)):
         # print total
@@ -181,4 +165,7 @@ def optimize(commandes):
     return resultat
 
 if __name__ == '__main__':
-    pass
+    commandes = [{ 'VOL': str(i), 'DEPART': i, 'DUREE': i, 'PRIX': i } for i in range(1, 10000)]
+    import random
+    random.shuffle(commandes)
+    print optimize(commandes)

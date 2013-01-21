@@ -28,7 +28,7 @@ def change(montant, pieces = None):
     """
     compositions = []
 
-    if not montant:
+    if not montant or montant > 100:
         return compositions
 
     if not pieces:
