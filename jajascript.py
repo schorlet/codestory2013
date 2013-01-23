@@ -137,6 +137,10 @@ def optimize(commandes):
     >>> commandes = [{'DEPART': 0, 'DUREE': 4, 'PRIX': 8, 'VOL': 'mysterious-trio-77'}, {'DEPART': 1, 'DUREE': 2, 'PRIX': 4, 'VOL': 'dead-evergreen-68'}, {'DEPART': 2, 'DUREE': 6, 'PRIX': 6, 'VOL': 'shy-racket-99'}, {'DEPART': 4, 'DUREE': 5, 'PRIX': 6, 'VOL': 'victorious-penalty-91'}, {'DEPART': 5, 'DUREE': 2, 'PRIX': 4, 'VOL': 'expensive-penguin-82'}, {'DEPART': 5, 'DUREE': 4, 'PRIX': 15, 'VOL': 'MISTY-REHAB-89'}, {'DEPART': 6, 'DUREE': 2, 'PRIX': 2, 'VOL': 'vast-flake-75'}, {'DEPART': 7, 'DUREE': 6, 'PRIX': 1, 'VOL': 'muddy-pawn-10'}, {'DEPART': 9, 'DUREE': 5, 'PRIX': 15, 'VOL': 'annoyed-spout-51'}, {'DEPART': 10, 'DUREE': 2, 'PRIX': 18, 'VOL': 'thankful-harvester-74'}, {'DEPART': 10, 'DUREE': 4, 'PRIX': 6, 'VOL': 'sore-watch-81'}, {'DEPART': 11, 'DUREE': 2, 'PRIX': 2, 'VOL': 'cooperative-trek-11'}, {'DEPART': 12, 'DUREE': 6, 'PRIX': 7, 'VOL': 'naughty-underdog-75'}, {'DEPART': 14, 'DUREE': 5, 'PRIX': 20, 'VOL': 'fair-womb-75'}, {'DEPART': 15, 'DUREE': 2, 'PRIX': 21, 'VOL': 'nice-pauper-66'}]
     >>> optimize(commandes)
     {'path': ['mysterious-trio-77', 'MISTY-REHAB-89', 'thankful-harvester-74', 'nice-pauper-66'], 'gain': 62}
+
+    >>> commandes = [{'DEPART': 1, 'DUREE': 6, 'PRIX': 5, 'VOL': 'annoying-meteorologist-37'}, {'DEPART': 3, 'DUREE': 10, 'PRIX': 6, 'VOL': 'frightened-rank-51'}, {'DEPART': 2, 'DUREE': 5, 'PRIX': 6, 'VOL': 'terrible-babysitter-90'}, {'DEPART': 8, 'DUREE': 3, 'PRIX': 1, 'VOL': 'faithful-metropolis-59'}, {'DEPART': 7, 'DUREE': 5, 'PRIX': 14, 'VOL': 'rich-virtuoso-18'}, {'DEPART': 5, 'DUREE': 4, 'PRIX': 2, 'VOL': 'troubled-helicopter-43'}, {'DEPART': 2, 'DUREE': 9, 'PRIX': 12, 'VOL': 'precious-romance-42'}, {'DEPART': 0, 'DUREE': 9, 'PRIX': 4, 'VOL': 'low-gray-24'}, {'DEPART': 7, 'DUREE': 3, 'PRIX': 6, 'VOL': 'stupid-gnat-35'}, {'DEPART': 8, 'DUREE': 18, 'PRIX': 6, 'VOL': 'husky-mine-92'}]
+    >>> optimize(commandes)
+    {'path': ['terrible-babysitter-90', 'rich-virtuoso-18'], 'gain': 20}
     """
     if len(commandes) == 0 or len(commandes) > 10000:
         return { 'gain': 0, 'path': list() }
@@ -179,8 +183,12 @@ def optimize(commandes):
     return resultat
 
 if __name__ == '__main__':
-    commandes = [{ 'VOL': str(i), 'DEPART': i, 'DUREE': i, 'PRIX': i } for i in range(1, 10000)]
-    import random
-    random.shuffle(commandes)
+    # commandes = [{ 'VOL': str(i), 'DEPART': i, 'DUREE': i, 'PRIX': i } for i in range(1, 10)]
+    # import random
+    # random.shuffle(commandes)
+    # print optimize(commandes)
+    # print {'path': ['1', '2', '4', '9', '19', '39', '78', '156', '312', '624', '1249', '2499', '4999', '9999'], 'gain': 19990}
+
+
     print optimize(commandes)
-    print {'path': ['1', '2', '4', '9', '19', '39', '78', '156', '312', '624', '1249', '2499', '4999', '9999'], 'gain': 19990}
+    print {'path': ['annoying-meteorologist-37', 'rich-virtuoso-18'], 'gain': 19}
