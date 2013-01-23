@@ -1,5 +1,6 @@
 #-*- coding:utf-8 -*-
 import re
+from decimal import *
 from operator import truediv
 from operator import add
 from operator import mul
@@ -27,48 +28,55 @@ def operation(op, N):
         raise NotImplementedError('operator: %s'%op)
     N.append(e)
 
+def normalize_fraction(d):
+    """http://stackoverflow.com/questions/11227620/drop-trailing-zeros-from-decimal"""
+    normalized = d.normalize()
+    sign, digits, exponent = normalized.as_tuple()
+    if exponent > 0:
+        return Decimal((sign, digits + (0,) * exponent, 0))
+    else:
+        return normalized
 
 def calcul(s):
     """
     >>> calcul('( 1 + ( ( 2 + 3 ) * ( 4 * 500 ) ) )')
-    10001L
-    >>> calcul('10-21')
-    10L
+    '10001'
+    >>> calcul('(10-21)')
+    '-11'
     >>> calcul('12*12')
-    144L
+    '144'
     >>> calcul('120/12')
-    10L
+    '10'
     >>> calcul('((1+2)*2)')
-    6L
+    '6'
     >>> calcul('((2+2))')
-    4L
+    '4'
     >>> calcul('((2--2))')
-    4L
+    '4'
     >>> calcul('((1+2+3+4+5+6+7+8+9+10)*2)')
-    110L
+    '110'
     >>> calcul('(1.5*4)')
-    6L
+    '6'
     >>> calcul('((1+2)/2)')
-    1.5
+    '1.5'
     >>> calcul('(((1+2)+3+4+(5+6+7)+(8+9+10)*3)/2*5)')
-    272.5
+    '272.5'
     >>> calcul('(((1.1+2)+3.14+4+(5+6+7)+(8+9+10)*4267387833344334647677634)/2*553344300034334349999000)')
-    31878018903828899277492024491376690701584023926880L
+    '31878018903828899277492024491376690701584023926880'
     >>> calcul('((-1)+(1))')
-    0L
+    '0'
     >>> calcul('((-1.1)+(1.1))')
-    0L
-    >>> '%.1f'%calcul('((-1.1)+(1))')
+    '0'
+    >>> calcul('((-1.1)+(1))')
     '-0.1'
-    >>> calcul('(-1.1)+(1)')
-    -1.1000000000000001
-    >>> calcul('(-1.1)+(1.1)')
-    -1.1000000000000001
+    >>> calcul('((-1.1)+(1.1))')
+    '0'
+    >>> calcul('(1.0000000000000000000000000000000000000000000000001*1.0000000000000000000000000000000000000000000000001)')
+    '1.0000000000000000000000000000000000000000000000002'
     """
-    if s == '(((1.1+2)+3.14+4+(5+6+7)+(8+9+10)*4267387833344334647677634)/2*553344300034334349999000)':
-        return 31878018903828899277492024491376690701584023926880L
-        # FIXME: valeur calculée: 31878018903828901761984975061078744643351263313920
     s = re.sub(r'([+/*]|(?<![()+/*-])[-]|[()])', r' \1 ', s)
+    # decimal precision
+    getcontext().prec = 60
     O, N = list(), list()
     for c in s.split():
         if c == '(':
@@ -85,17 +93,11 @@ def calcul(s):
             O.append(c)
         # ---- nombres
         else:
-            if c.count('.'):
-                N.append(float(c))
-            else:
-                N.append(long(c))
+            N.append(Decimal(c))
             if O and O[-1:][0] in '/*':
                 operation(O.pop(), N)
 
-    n = N[0]
-    if type(n) == float and n.is_integer():
-        n = long(n)
-    return n
+    return str(normalize_fraction(N[0]))
 
 if __name__ == '__main__':
     print calcul('((1+2+3+4+5+6+7+8+9+10)*2)')
