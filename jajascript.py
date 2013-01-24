@@ -183,7 +183,7 @@ def optimize(commandes):
     >>> optimize(commandes)
     {'path': ['screeching-jogger-9', 'huge-wintergreen-82', 'big-seafood-10', 'wide-pit-81', 'short-jackrabbit-62', 'helpless-vow-77', 'elegant-sandlot-15', 'proud-rubble-25', 'friendly-polygamy-1'], 'gain': 113}
     """
-    if len(commandes) == 0 or len(commandes) > 10000:
+    if len(commandes) == 0 or len(commandes) > 6000:
         return { 'gain': 0, 'path': list() }
 
     vols_map, prix_map, depart_map = mapper_commandes(commandes)
