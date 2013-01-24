@@ -14,22 +14,28 @@ def mapper_commandes(commandes):
         depart_map[commande['DEPART']].append(commande['VOL'])
     return vols_map, prix_map, depart_map
 
+# def rechercher_vols_apres(vols_map, depart_map, fin):
+    # max_fin, max_fin_ok = 0, False
+    # for depart, vols in sorted(depart_map.items()):
+        # if depart >= fin:
+            # if not max_fin_ok:
+                # max_fin_ok = True
+                # for vol in vols:
+                    # vol_fin = vols_map[vol]['FIN']
+                    # if vol_fin > max_fin:
+                        # max_fin = vol_fin
+                    # yield vol
+            # elif depart < max_fin:
+                # for vol in vols:
+                    # yield vol
+            # else:
+                # break
+
 def rechercher_vols_apres(vols_map, depart_map, fin):
-    max_fin, max_fin_ok = 0, False
     for depart, vols in sorted(depart_map.items()):
         if depart >= fin:
-            if not max_fin_ok:
-                max_fin_ok = True
-                for vol in vols:
-                    vol_fin = vols_map[vol]['FIN']
-                    if vol_fin > max_fin:
-                        max_fin = vol_fin
-                    yield vol
-            elif depart < max_fin:
-                for vol in vols:
-                    yield vol
-            else:
-                break
+            for vol in vols:
+                yield vol
 
 def optimize(commandes):
     """
@@ -218,7 +224,7 @@ def optimize(commandes):
     return resultat
 
 if __name__ == '__main__':
-    commandes = [{ 'VOL': str(i), 'DEPART': i, 'DUREE': i, 'PRIX': i } for i in range(1, 1000)]
+    commandes = [{ 'VOL': str(i), 'DEPART': i, 'DUREE': i, 'PRIX': i } for i in range(1, 8000)]
     import random
     random.shuffle(commandes)
     print optimize(commandes)
