@@ -1,8 +1,7 @@
 #-*- coding:utf-8 -*-
 # http://stackoverflow.com/questions/3243234/algorithm-to-find-the-maximum-sum-in-a-sequence-of-overlapping-intervals
 from operator import itemgetter
-from collections import defaultdict
-from collections import deque
+from bisect import bisect_left
 
 def optimize(commandes):
     """
@@ -154,46 +153,45 @@ def optimize(commandes):
     {'path': ['screeching-jogger-9', 'huge-wintergreen-82', 'inexpensive-plasterboard-57', 'bloody-tuttifrutti-11', 'wide-pit-81', 'short-jackrabbit-62', 'helpless-vow-77', 'elegant-sandlot-15', 'proud-rubble-25', 'friendly-polygamy-1'], 'gain': 113}
     >>> # {'path': ['screeching-jogger-9', 'huge-wintergreen-82', 'big-seafood-10', 'wide-pit-81', 'short-jackrabbit-62', 'helpless-vow-77', 'elegant-sandlot-15', 'proud-rubble-25', 'friendly-polygamy-1'], 'gain': 113}
     """
-    if len(commandes) == 0 or len(commandes) > 20000:
+    if len(commandes) == 0:
         return { 'gain': 0, 'path': list() }
 
     nb_commandes = len(commandes)
+    commandes = sorted(commandes, key=itemgetter('DEPART'))
+    commandes = list(enumerate(commandes))
+
     prix = [0] * nb_commandes
     departs = [0] * nb_commandes
-
-    commandes = sorted(commandes, key=itemgetter('DEPART'))
-    commandes = deque(enumerate(commandes))
     suivants = {}
     vols = {}
 
-    prix_k = 0
+    prix_precedent = 0
     prix_max_index = nb_commandes
-    prix_max = {}
+    prix_suivants = {}
 
     while commandes:
         i, commande = commandes.pop()
         departs[i] = commande['DEPART']
         vols[i] = commande['VOL']
+        #
         fin = commande['DEPART'] + commande['DUREE']
+        j = bisect_left(departs, fin, lo=i+1, hi=nb_commandes)
+        prix_suivant = 0
+        if j < nb_commandes:
+            prix_suivant = prix[j]
+            suivants[i] = prix_suivants[prix_suivant]
         #
-        prix_j, j = 0, 0
-        for j in xrange(i+1, nb_commandes):
-            if departs[j] >= fin:
-                prix_j = prix[j]
-                suivants[i] = prix_max[prix_j]
-                break
+        somme_ij = commande['PRIX'] + prix_suivant
+        prix[i] = max(somme_ij, prix_precedent)
         #
-        somme_ij = commande['PRIX'] + prix_j
-        prix[i] = max(somme_ij, prix_k)
+        if not prix[i] in prix_suivants:
+            prix_suivants[prix[i]] = i
         #
-        if not prix[i] in prix_max:
-            prix_max[prix[i]] = i
-        #
-        if prix[i] > prix_k:
+        if prix[i] > prix_precedent:
             prix_max_index = i
         #
-        # print '-- max(%d + %d, %d) = %d'%(commande['PRIX'], prix_j, prix_k, prix[i])
-        prix_k = prix[i]
+        # print '-- max(%d + %d, %d) = %d'%(commande['PRIX'], prix_suivant, prix_precedent, prix[i])
+        prix_precedent = prix[i]
 
     resultat = { 'gain': prix[prix_max_index], 'path': list() }
     resultat['path'].append(vols[prix_max_index])
@@ -206,15 +204,18 @@ def optimize(commandes):
 
 if __name__ == '__main__':
     import random
-    # commandes = [{ 'VOL': 'VOL0', 'DEPART': 0, 'DUREE': 5, 'PRIX': 15 },
-                # { 'VOL': 'VOL1', 'DEPART': 4, 'DUREE': 5, 'PRIX': 18 },
-                # { 'VOL': 'VOL2', 'DEPART': 8, 'DUREE': 13, 'PRIX': 19 },
-                # { 'VOL': 'VOL3', 'DEPART': 10, 'DUREE': 5, 'PRIX': 12 },
-                # { 'VOL': 'VOL4', 'DEPART': 25, 'DUREE': 5, 'PRIX': 25 }]
-    # random.shuffle(commandes)
-    # print optimize(commandes)
+    commandes = [{ 'VOL': 'VOL0', 'DEPART': 0, 'DUREE': 5, 'PRIX': 15 },
+                { 'VOL': 'VOL1', 'DEPART': 4, 'DUREE': 5, 'PRIX': 18 },
+                { 'VOL': 'VOL2', 'DEPART': 8, 'DUREE': 13, 'PRIX': 19 },
+                { 'VOL': 'VOL3', 'DEPART': 10, 'DUREE': 5, 'PRIX': 12 },
+                { 'VOL': 'VOL4', 'DEPART': 25, 'DUREE': 5, 'PRIX': 25 }]
+    random.shuffle(commandes)
+    print optimize(commandes)
 
     commandes = [{ 'VOL': str(i), 'DEPART': i, 'DUREE': i, 'PRIX': i } for i in range(1, 10000)]
     random.shuffle(commandes)
     print optimize(commandes)
+    print '--'
     print {'path': ['1', '2', '4', '9', '19', '39', '78', '156', '312', '624', '1249', '2499', '4999', '9999'], 'gain': 19990}
+    print {'path': ['1', '3', '6', '12', '24', '48', '97', '195', '390', '781', '1562', '3124', '6249', '12499', '24999', '49999'], 'gain': 99989}
+    print {'path': ['1', '3', '6', '12', '24', '48', '97', '195', '390', '781', '1562', '3124', '6249', '12499', '24999', '49999', '99999'], 'gain': 199988}
