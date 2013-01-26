@@ -1,7 +1,8 @@
 import os, re, json
 from flask import Flask, request, abort, make_response
 from flask import render_template
-import scalaskel, calculatrice, jajascript
+import scalaskel, calculatrice
+import jajascript3 as jajascript
 
 app = Flask(__name__)
 
@@ -70,8 +71,6 @@ def jajascript_optimize():
         solution = jajascript.optimize(commandes)
         nb_commandes = len(commandes)
         print nb_commandes
-        # if nb_commandes < 100:
-            # print commandes, solution
         response = make_response(json.dumps(solution, sort_keys=True, separators=(',', ' : ')), 201)
         response.headers['Content-Type'] = 'application/json'
         return response
