@@ -17,7 +17,8 @@ def answer():
         'As tu bien recu le premier enonce(OUI/NON)': 'OUI',
         'As tu passe une bonne nuit malgre les bugs de l etape precedente(PAS_TOP/BOF/QUELS_BUGS)': 'QUELS_BUGS',
         'As tu bien recu le second enonce(OUI/NON)': 'OUI',
-        'As tu copie le code de ndeloof(OUI/NON/JE_SUIS_NICOLAS)': 'NON'}
+        'As tu copie le code de ndeloof(OUI/NON/JE_SUIS_NICOLAS)': 'NON',
+        'Souhaites-tu-participer-a-la-suite-de-Code-Story(OUI/NON)': 'NON'}
 
     q = request.args.get('q', '')
 
