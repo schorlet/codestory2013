@@ -2,40 +2,25 @@
 from operator import itemgetter
 from collections import defaultdict
 from collections import deque
+from bisect import bisect_left
+import itertools
 
 def mapper_commandes(commandes):
-    vols_map, prix_map = dict(), dict()
     depart_map = defaultdict(list)
+    fin_map, prix_map = dict(), dict()
     for commande in commandes:
-        vols_map[commande['VOL']] = {
-                'PRIX': commande['PRIX'], 'DEPART': commande['DEPART'],
-                'FIN': commande['DEPART'] + commande['DUREE'] }
-        prix_map[commande['VOL']] = commande['PRIX']
         depart_map[commande['DEPART']].append(commande['VOL'])
-    return vols_map, prix_map, depart_map
+        fin_map[commande['VOL']] = commande['DEPART'] + commande['DUREE']
+        prix_map[commande['VOL']] = commande['PRIX']
+    return depart_map, fin_map, prix_map
 
-# def rechercher_vols_apres(vols_map, depart_map, fin):
-    # max_fin, max_fin_ok = 0, False
-    # for depart, vols in sorted(depart_map.items()):
-        # if depart >= fin:
-            # if not max_fin_ok:
-                # max_fin_ok = True
-                # for vol in vols:
-                    # vol_fin = vols_map[vol]['FIN']
-                    # if vol_fin > max_fin:
-                        # max_fin = vol_fin
-                    # yield vol
-            # elif depart < max_fin:
-                # for vol in vols:
-                    # yield vol
-            # else:
-                # break
-
-def rechercher_vols_apres(vols_map, depart_map, fin):
-    for depart, vols in sorted(depart_map.items()):
-        if depart >= fin:
-            for vol in vols:
-                yield vol
+def rechercher_vols_apres(departs, depart_map, fin):
+    left = bisect_left(departs, fin)
+    for depart in departs[left:]:
+        vols = depart_map[depart]
+        for vol in vols:
+            yield vol
+    # return [vol for depart in departs[left:] for vol in depart_map[depart]]
 
 def optimize(commandes):
     """
@@ -182,36 +167,42 @@ def optimize(commandes):
     >>> commandes = [{'DEPART': 2, 'DUREE': 2, 'PRIX': 7, 'VOL': 'huge-wintergreen-82'}, {'DEPART': 1, 'DUREE': 3, 'PRIX': 8, 'VOL': 'nutty-chisel-69'}, {'DEPART': 0, 'DUREE': 2, 'PRIX': 7, 'VOL': 'screeching-jogger-9'}, {'DEPART': 0, 'DUREE': 8, 'PRIX': 7, 'VOL': 'puny-acrobat-13'}, {'DEPART': 0, 'DUREE': 18, 'PRIX': 5, 'VOL': 'purring-kid-30'}, {'DEPART': 7, 'DUREE': 4, 'PRIX': 12, 'VOL': 'quaint-pecan-5'}, {'DEPART': 7, 'DUREE': 2, 'PRIX': 9, 'VOL': 'inexpensive-plasterboard-57'}, {'DEPART': 8, 'DUREE': 6, 'PRIX': 5, 'VOL': 'wild-screwdriver-37'}, {'DEPART': 5, 'DUREE': 6, 'PRIX': 12, 'VOL': 'big-seafood-10'}, {'DEPART': 8, 'DUREE': 19, 'PRIX': 3, 'VOL': 'curious-shortchange-59'}, {'DEPART': 10, 'DUREE': 2, 'PRIX': 3, 'VOL': 'bloody-tuttifrutti-11'}, {'DEPART': 11, 'DUREE': 4, 'PRIX': 5, 'VOL': 'mysterious-springtime-12'}, {'DEPART': 13, 'DUREE': 6, 'PRIX': 9, 'VOL': 'aggressive-preschooler-58'}, {'DEPART': 13, 'DUREE': 1, 'PRIX': 10, 'VOL': 'wide-pit-81'}, {'DEPART': 13, 'DUREE': 3, 'PRIX': 3, 'VOL': 'blushing-mayonnaise-26'}, {'DEPART': 18, 'DUREE': 3, 'PRIX': 25, 'VOL': 'short-jackrabbit-62'}, {'DEPART': 16, 'DUREE': 4, 'PRIX': 19, 'VOL': 'fair-keg-43'}, {'DEPART': 18, 'DUREE': 2, 'PRIX': 1, 'VOL': 'dark-palace-64'}, {'DEPART': 19, 'DUREE': 4, 'PRIX': 7, 'VOL': 'bright-dolt-78'}, {'DEPART': 16, 'DUREE': 8, 'PRIX': 4, 'VOL': 'old-fashioned-sandwich-35'}, {'DEPART': 21, 'DUREE': 6, 'PRIX': 21, 'VOL': 'helpless-vow-77'}, {'DEPART': 20, 'DUREE': 8, 'PRIX': 14, 'VOL': 'testy-somewhere-96'}, {'DEPART': 22, 'DUREE': 6, 'PRIX': 1, 'VOL': 'jittery-ferret-12'}, {'DEPART': 22, 'DUREE': 6, 'PRIX': 6, 'VOL': 'tough-flag-45'}, {'DEPART': 22, 'DUREE': 6, 'PRIX': 4, 'VOL': 'faithful-rhinestone-74'}, {'DEPART': 27, 'DUREE': 9, 'PRIX': 21, 'VOL': 'troubled-shrewdness-28'}, {'DEPART': 29, 'DUREE': 4, 'PRIX': 17, 'VOL': 'proud-rubble-25'}, {'DEPART': 27, 'DUREE': 1, 'PRIX': 8, 'VOL': 'elegant-sandlot-15'}, {'DEPART': 27, 'DUREE': 8, 'PRIX': 11, 'VOL': 'stupid-glue-25'}, {'DEPART': 28, 'DUREE': 12, 'PRIX': 1, 'VOL': 'beautiful-bike-51'}, {'DEPART': 30, 'DUREE': 10, 'PRIX': 5, 'VOL': 'worried-archery-14'}, {'DEPART': 30, 'DUREE': 6, 'PRIX': 10, 'VOL': 'vast-tentacle-84'}, {'DEPART': 33, 'DUREE': 9, 'PRIX': 6, 'VOL': 'friendly-polygamy-1'}, {'DEPART': 32, 'DUREE': 1, 'PRIX': 8, 'VOL': 'clean-bullfighting-87'}, {'DEPART': 31, 'DUREE': 13, 'PRIX': 1, 'VOL': 'hungry-slothfulness-3'}]
     >>> optimize(commandes)
     {'path': ['screeching-jogger-9', 'huge-wintergreen-82', 'big-seafood-10', 'wide-pit-81', 'short-jackrabbit-62', 'helpless-vow-77', 'elegant-sandlot-15', 'proud-rubble-25', 'friendly-polygamy-1'], 'gain': 113}
+
+    >>> commandes = [{ 'VOL': 'VOL0', 'DEPART': 0, 'DUREE': 5, 'PRIX': 15 },
+    ...     { 'VOL': 'VOL1', 'DEPART': 4, 'DUREE': 5, 'PRIX': 18 },
+    ...     { 'VOL': 'VOL2', 'DEPART': 8, 'DUREE': 13, 'PRIX': 19 },
+    ...     { 'VOL': 'VOL3', 'DEPART': 10, 'DUREE': 5, 'PRIX': 12 },
+    ...     { 'VOL': 'VOL4', 'DEPART': 25, 'DUREE': 5, 'PRIX': 25 }]
+    >>> random.shuffle(commandes)
+    >>> optimize(commandes)
+    {'path': ['VOL0', 'VOL2', 'VOL4'], 'gain': 59}
     """
-    if len(commandes) == 0 or len(commandes) > 2000:
+    if len(commandes) == 0:
         return { 'gain': 0, 'path': list() }
 
-    vols_map, prix_map, depart_map = mapper_commandes(commandes)
-    departs = deque(depart_map.keys())
-    max_depart = departs[-1]
-    precedents = {}
+    depart_map, fin_map, prix_map = mapper_commandes(commandes)
+    departs = sorted(depart_map.keys())
+    precedents = dict()
+    prix_somme = prix_map.copy()
 
     while departs:
-        depart = departs.popleft()
+        depart = departs.pop(0)
         vols = depart_map.pop(depart)
         for vol in vols:
-            commande = vols_map[vol]
-            depart, fin = commande['DEPART'], commande['FIN']
-            if depart == max_depart:
-                break
+            fin = fin_map[vol]
             # recherche des commandes suivantes
-            vols_apres = rechercher_vols_apres(vols_map, depart_map, fin)
+            vols_apres = rechercher_vols_apres(departs, depart_map, fin)
             for vol_apres in vols_apres:
                 if vol_apres in precedents:
-                    somme_prix = prix_map[vol] + vols_map[vol_apres]['PRIX']
-                    if somme_prix > prix_map[vol_apres]:
-                        prix_map[vol_apres] = somme_prix
+                    somme_prix = prix_somme[vol] + prix_map[vol_apres]
+                    if somme_prix > prix_somme[vol_apres]:
+                        prix_somme[vol_apres] = somme_prix
                         precedents[vol_apres] = vol
                 else:
-                    prix_map[vol_apres] = prix_map[vol] + prix_map[vol_apres]
+                    prix_somme[vol_apres] = prix_map[vol] + prix_map[vol_apres]
                     precedents[vol_apres] = vol
 
-    vol_gain = max(prix_map.items(), key=itemgetter(1))
+    vol_gain = max(prix_somme.items(), key=itemgetter(1))
     resultat = { 'gain': vol_gain[1], 'path': list() }
 
     vol = vol_gain[0]
