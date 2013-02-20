@@ -1,7 +1,11 @@
 #-*- coding:utf-8 -*-
-# http://stackoverflow.com/questions/3243234/algorithm-to-find-the-maximum-sum-in-a-sequence-of-overlapping-intervals
+"""
+http://stackoverflow.com/questions/3243234/algorithm-to-find-the-maximum-sum-in-a-sequence-of-overlapping-intervals
+"""
+
 from operator import itemgetter
 from bisect import bisect_left
+
 
 def optimize(commandes):
     """
@@ -185,7 +189,7 @@ def optimize(commandes):
     {'path': ['VOL0', 'VOL2', 'VOL4'], 'gain': 59}
     """
     if len(commandes) == 0:
-        return { 'gain': 0, 'path': list() }
+        return {'gain': 0, 'path': list()}
 
     nb_commandes = len(commandes)
     commandes = sorted(commandes, key=itemgetter('DEPART'))
@@ -206,7 +210,7 @@ def optimize(commandes):
         vols[i] = commande['VOL']
         #
         fin = commande['DEPART'] + commande['DUREE']
-        j = bisect_left(departs, fin, lo=i+1, hi=nb_commandes)
+        j = bisect_left(departs, fin, lo=i + 1, hi=nb_commandes)
         prix_suivant = 0
         if j < nb_commandes:
             prix_suivant = prix[j]
@@ -221,10 +225,11 @@ def optimize(commandes):
         if prix[i] > prix_precedent:
             prix_max_index = i
         #
-        # print '-- max(%d + %d, %d) = %d'%(commande['PRIX'], prix_suivant, prix_precedent, prix[i])
+        # print ('-- max(%d + %d, %d) = %d'%(commande['PRIX'], prix_suivant,
+            # prix_precedent, prix[i]))
         prix_precedent = prix[i]
 
-    resultat = { 'gain': prix[prix_max_index], 'path': list() }
+    resultat = {'gain': prix[prix_max_index], 'path': list()}
     resultat['path'].append(vols[prix_max_index])
 
     while prix_max_index in suivants:
@@ -235,14 +240,15 @@ def optimize(commandes):
 
 if __name__ == '__main__':
     import random
-    commandes = [{ 'VOL': 'VOL0', 'DEPART': 0, 'DUREE': 5, 'PRIX': 15 },
-                { 'VOL': 'VOL1', 'DEPART': 4, 'DUREE': 5, 'PRIX': 18 },
-                { 'VOL': 'VOL2', 'DEPART': 8, 'DUREE': 13, 'PRIX': 19 },
-                { 'VOL': 'VOL3', 'DEPART': 10, 'DUREE': 5, 'PRIX': 12 },
-                { 'VOL': 'VOL4', 'DEPART': 25, 'DUREE': 5, 'PRIX': 25 }]
+    commandes = [{'VOL': 'VOL0', 'DEPART': 0, 'DUREE': 5, 'PRIX': 15},
+                {'VOL': 'VOL1', 'DEPART': 4, 'DUREE': 5, 'PRIX': 18},
+                {'VOL': 'VOL2', 'DEPART': 8, 'DUREE': 13, 'PRIX': 19},
+                {'VOL': 'VOL3', 'DEPART': 10, 'DUREE': 5, 'PRIX': 12},
+                {'VOL': 'VOL4', 'DEPART': 25, 'DUREE': 5, 'PRIX': 25}]
     random.shuffle(commandes)
     print optimize(commandes)
 
-    commandes = [{ 'VOL': str(i), 'DEPART': i, 'DUREE': i, 'PRIX': i } for i in range(1, 50000)]
+    commandes = [{'VOL': str(x), 'DEPART': x, 'DUREE': x, 'PRIX': x}
+                    for x in range(1, 50000)]
     random.shuffle(commandes)
     print optimize(commandes)
