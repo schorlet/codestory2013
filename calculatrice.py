@@ -21,9 +21,9 @@ def operation(op, N):
     elif op == '*':
         e = mul(a, b)
     elif op == '+':
-        e = add(a, b)
+        e = add(b, a)
     elif op == '-':
-        e = sub(a, b)
+        e = sub(b, a)
     else:
         raise NotImplementedError('operator: %s'%op)
     N.append(e)
@@ -73,6 +73,8 @@ def calcul(s):
     '0'
     >>> calcul('(1.0000000000000000000000000000000000000000000000001*1.0000000000000000000000000000000000000000000000001)')
     '1.00000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000001'
+    >>> calcul('((55 - 15 + 3*5)/5)')
+    '11'
     """
     s = re.sub(r'([+/*]|(?<![()+/*-])[-]|[()])', r' \1 ', s)
     # decimal precision
@@ -85,9 +87,18 @@ def calcul(s):
         elif c in ')':
             if len(N) < 2: continue
             op = O.pop()
+            # reverse op and numbers and put them in O2, N2
+            # in order to read the expression from left to right
+            O2, N2 = list(), list()
             while op != '(':
-                operation(op, N)
+                O2.append(op)
+                N2.append(N.pop())
                 op = O.pop()
+            N2.append(N.pop())
+            while O2:
+                op = O2.pop()
+                operation(op, N2)
+            N.append(N2[0])
         # ---- operateurs
         elif c in '+-*/':
             O.append(c)
